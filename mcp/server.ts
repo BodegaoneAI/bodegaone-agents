@@ -9,8 +9,9 @@ export function createServer() {
       instructions:
         "BodegaOne Agents — specialized tools for SEO/GEO analysis. " +
         "Use seo_fetch_page to analyze a live URL, seo_check_schema to validate " +
-        "structured data, seo_analyze_serp to research keyword competition, and " +
-        "seo_keyword_cluster to map topical authority opportunities.",
+        "structured data, seo_analyze_serp to research keyword competition, " +
+        "seo_keyword_cluster to map topical authority opportunities, and " +
+        "seo_save_report to write a full audit report to disk as a markdown file.",
     }
   );
 
@@ -20,7 +21,7 @@ export function createServer() {
 
 // ── Local stdio mode (Claude Desktop, Claude Code, Cursor) ──────────────────
 const isStdio =
-  process.argv.includes("--stdio") || process.stdin.isTTY === false;
+  process.argv.includes("--stdio") || !process.stdin.isTTY;
 
 if (isStdio) {
   const server = createServer();

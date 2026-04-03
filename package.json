@@ -9,10 +9,18 @@
   "main": "./dist/mcp/server.js",
   "scripts": {
     "build": "tsc",
+    "prepare": "npm run build",
     "dev": "tsx mcp/server.ts --stdio",
     "typecheck": "tsc --noEmit",
     "inspector": "npx @modelcontextprotocol/inspector tsx mcp/server.ts --stdio"
   },
+  "files": [
+    "dist/",
+    "agents/",
+    "skills/",
+    "hooks/",
+    "README.md"
+  ],
   "keywords": [
     "mcp",
     "ai-agent",
@@ -31,7 +39,7 @@
   },
   "homepage": "https://github.com/BodegaoneAI/bodegaone-agents#readme",
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.0.0",
+    "@modelcontextprotocol/sdk": "^1.11.0",
     "zod": "^3.23.0"
   },
   "devDependencies": {
