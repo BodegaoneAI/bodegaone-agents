@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bad Schema Page — Test Fixture</title>
+  <meta name="description" content="A page with malformed JSON-LD structured data for testing parse error handling.">
+  <link rel="canonical" href="https://example-bad-schema.com/">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization"
+    "name": "Missing comma above makes this invalid JSON"
+  }
+  </script>
+</head>
+<body>
+  <h1>Bad Schema Test Page</h1>
+  <p>This page contains a JSON-LD block with invalid JSON syntax. The schema parser should detect and report this as a parse error rather than crashing.</p>
+</body>
+</html>

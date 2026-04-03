@@ -1,5 +1,6 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
+import { stripTags, decodeHtml, extractSchemaTypes } from "../../lib/html.js";
 
 const OutputSchema = z.object({
   url: z.string(),
@@ -181,39 +182,4 @@ export function registerFetchPageTool(server: McpServer) {
   );
 }
 
-// ── Helpers ──────────────────────────────────────────────────────────────────
-
-function stripTags(html: string): string {
-  return html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-}
-
-function decodeHtml(str: string): string {
-  return str
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, '"')
-    .replace(/&#039;/g, "'")
-    .replace(/&nbsp;/g, " ");
-}
-
-function extractSchemaTypes(data: unknown): string[] {
-  if (!data || typeof data !== "object") return [];
-  const types: string[] = [];
-  if (Array.isArray(data)) {
-    for (const item of data) types.push(...extractSchemaTypes(item));
-  } else {
-    const obj = data as Record<string, unknown>;
-    if (obj["@type"]) {
-      if (Array.isArray(obj["@type"])) {
-        types.push(...(obj["@type"] as string[]));
-      } else {
-        types.push(obj["@type"] as string);
-      }
-    }
-    for (const val of Object.values(obj)) {
-      if (typeof val === "object") types.push(...extractSchemaTypes(val));
-    }
-  }
-  return types;
-}
+// Helpers are imported from mcp/lib/html.ts

@@ -2,32 +2,17 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { writeFileSync, mkdirSync, existsSync } from "fs";
 import { join, resolve } from "path";
+import {
+  CategoryNames,
+  CategorySchema,
+  categoryGrade,
+  overallGrade,
+  gradeEmoji,
+  statusIcon,
+} from "../../lib/grading.js";
 
-// ── Schemas ──────────────────────────────────────────────────────────────────
-
-const ItemStatus = z.enum(["pass", "warn", "fail"]);
-
-const ScorecardItemSchema = z.object({
-  label: z.string().describe("Short description of what was checked"),
-  status: ItemStatus.describe("pass | warn | fail"),
-  note: z.string().optional().describe("Optional detail — what was found or why it failed"),
-});
-
-const CategoryNames = z.enum([
-  "Technical SEO",
-  "Metadata",
-  "Schema & Structured Data",
-  "Content & E-E-A-T",
-  "Core Web Vitals",
-  "GEO Readiness",
-  "Internal Linking",
-  "Page Experience",
-]);
-
-const CategorySchema = z.object({
-  name: CategoryNames,
-  items: z.array(ScorecardItemSchema).min(1),
-});
+// ── Schemas ───────────────────────────────────────────────────────────────────
+// CategoryNames, CategorySchema, ScorecardItemSchema imported from lib/grading.ts
 
 const QuickWinSchema = z.object({
   action: z.string().describe("What to do"),
@@ -50,37 +35,9 @@ const FindingsSchema = z.object({
   outputDir: z.string().optional(),
 });
 
-// ── Grade logic ───────────────────────────────────────────────────────────────
-
-type Grade = "PASS" | "WARN" | "FAIL";
-
-function categoryGrade(items: z.infer<typeof ScorecardItemSchema>[]): Grade {
-  const fails = items.filter((i) => i.status === "fail").length;
-  const warns = items.filter((i) => i.status === "warn").length;
-  if (fails >= 2) return "FAIL";
-  if (fails === 1) return "WARN";
-  if (warns >= 2) return "WARN";
-  return "PASS";
-}
-
-function overallGrade(categories: z.infer<typeof CategorySchema>[]): Grade {
-  const grades = categories.map((c) => categoryGrade(c.items));
-  if (grades.some((g) => g === "FAIL")) return "FAIL";
-  if (grades.some((g) => g === "WARN")) return "WARN";
-  return "PASS";
-}
-
-function gradeEmoji(g: Grade): string {
-  return g === "PASS" ? "✅ PASS" : g === "WARN" ? "⚠️  WARN" : "❌ FAIL";
-}
-
-function statusIcon(s: "pass" | "warn" | "fail"): string {
-  return s === "pass" ? "✅" : s === "warn" ? "⚠️ " : "❌";
-}
-
 // ── Report builder ────────────────────────────────────────────────────────────
 
-function buildReport(data: z.infer<typeof FindingsSchema>): string {
+export function buildReport(data: z.infer<typeof FindingsSchema>): string {
   const now = new Date();
   const dateStr = now.toISOString().split("T")[0];
   const timeStr = now.toTimeString().split(" ")[0];
