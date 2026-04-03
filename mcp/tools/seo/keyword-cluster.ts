@@ -55,7 +55,7 @@ export function registerKeywordClusterTool(server: McpServer) {
   );
 }
 
-function buildTopicalCluster(seed: string) {
+export function buildTopicalCluster(seed: string) {
   const words = seed.toLowerCase().split(/\s+/);
 
   return {
@@ -132,7 +132,7 @@ function buildTopicalCluster(seed: string) {
   };
 }
 
-function titleCase(str: string): string {
+export function titleCase(str: string): string {
   return str
     .split(/\s+/)
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
