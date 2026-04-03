@@ -1,0 +1,22 @@
+# CODEOWNERS — required reviewers for pull requests
+#
+# Every file requires review from the BodegaoneAI core team.
+# Add individual GitHub usernames here as the team grows.
+#
+# Format: <file pattern>  <@username or @org/team>
+
+# Default: all files
+* @BodegaoneAI/core
+
+# MCP tools — extra scrutiny since these run on users' machines
+mcp/tools/**  @BodegaoneAI/core
+
+# Hook scripts — run inside Claude Code on every file access
+hooks/**  @BodegaoneAI/core
+
+# Agent system prompts — the brain of each agent
+agents/**  @BodegaoneAI/core
+
+# CI and security config — never merge without review
+.github/**  @BodegaoneAI/core
+SECURITY.md  @BodegaoneAI/core

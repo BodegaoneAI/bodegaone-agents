@@ -1,0 +1,28 @@
+version: 2
+updates:
+  # Keep npm dependencies current
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    groups:
+      # Batch minor + patch updates into one PR per week
+      dependencies:
+        update-types:
+          - "minor"
+          - "patch"
+    ignore:
+      # Major version bumps always need manual review
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+
+  # Keep GitHub Actions pinned versions current
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
