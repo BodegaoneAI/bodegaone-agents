@@ -7,8 +7,8 @@ export function registerAnalyzeSerpTool(server: McpServer) {
     {
       title: "Analyze SERP for Keyword",
       description:
-        "Searches for a keyword and analyzes the top results to identify content patterns, " +
-        "gaps, and what it would take to rank. Requires BRAVE_SEARCH_API_KEY env var. " +
+        "Searches for a keyword and shows the top results so you can see who's ranking " +
+        "and what they're doing. Requires BRAVE_SEARCH_API_KEY env var. " +
         "Get a free key at https://brave.com/search/api (2,000 free queries/month).",
       inputSchema: z.object({
         keyword: z.string().describe("The keyword or phrase to research"),
@@ -30,18 +30,14 @@ export function registerAnalyzeSerpTool(server: McpServer) {
             {
               type: "text" as const,
               text: [
-                "⚠️  BRAVE_SEARCH_API_KEY is not set.",
-                "",
-                "To use this tool:",
-                "1. Get a free API key at https://brave.com/search/api",
-                "   (Free tier: 2,000 queries/month)",
-                "2. Set the env var:",
-                "   export BRAVE_SEARCH_API_KEY=your_key_here",
-                "3. Re-run the MCP server",
-                "",
-                "Without this tool, you can still analyze SERPs manually by:",
-                `   - Searching "${keyword}" in an incognito window`,
-                "   - Examining the top 5 results for content depth, word count, and schema",
+                `## SERP Analysis — "${keyword}"`,
+                ``,
+                `❌ BRAVE_SEARCH_API_KEY is not set.`,
+                ``,
+                `Get a free key at https://brave.com/search/api (2,000 queries/month free), then:`,
+                `  export BRAVE_SEARCH_API_KEY=your_key_here`,
+                ``,
+                `In the meantime, search "${keyword}" in an incognito window and look at the top 5 results manually.`,
               ].join("\n"),
             },
           ],
@@ -88,33 +84,34 @@ export function registerAnalyzeSerpTool(server: McpServer) {
       }
 
       const results = searchData.web?.results ?? [];
+      const keywordLower = keyword.toLowerCase();
+      const titlesWithKeyword = results.filter((r) =>
+        r.title.toLowerCase().includes(keywordLower)
+      ).length;
 
-      const output = {
-        keyword,
-        resultsAnalyzed: results.length,
-        results: results.map((r, i) => ({
-          position: i + 1,
-          title: r.title,
-          url: r.url,
-          description: r.description,
-          domain: new URL(r.url).hostname,
-        })),
-        patterns: {
-          domains: results.map((r) => new URL(r.url).hostname),
-          titleKeywordPresence: results.filter((r) =>
-            r.title.toLowerCase().includes(keyword.toLowerCase())
-          ).length,
-          note: "Fetch individual URLs with seo_fetch_page for deep content analysis",
-        },
-        nextSteps: [
-          `Run seo_fetch_page on the top 3 results to analyze their content depth and schema`,
-          `Compare word counts, heading structures, and schema types across top results`,
-          `Identify what content angle or data point is missing from all top results`,
-        ],
-      };
+      const lines: string[] = [
+        `## SERP: "${keyword}" — Top ${results.length} Results`,
+        ``,
+      ];
+
+      for (let i = 0; i < results.length; i++) {
+        const r = results[i];
+        const domain = (() => { try { return new URL(r.url).hostname.replace(/^www\./, ""); } catch { return r.url; } })();
+        lines.push(`**${i + 1}. ${domain}** — ${r.title}`);
+        if (r.description) {
+          lines.push(`   ${r.description.slice(0, 120)}${r.description.length > 120 ? "…" : ""}`);
+        }
+        lines.push(``);
+      }
+
+      lines.push(`**Patterns:**`);
+      lines.push(`  · ${titlesWithKeyword}/${results.length} titles include the keyword`);
+      lines.push(`  · Competing domains: ${results.map(r => { try { return new URL(r.url).hostname.replace(/^www\./, ""); } catch { return r.url; } }).join(", ")}`);
+      lines.push(``);
+      lines.push(`**Next steps:** run \`seo_fetch_page\` on the top 2–3 results to compare content depth, word count, and schema.`);
 
       return {
-        content: [{ type: "text" as const, text: JSON.stringify(output, null, 2) }],
+        content: [{ type: "text" as const, text: lines.join("\n") }],
       };
     }
   );

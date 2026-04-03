@@ -4,6 +4,7 @@ import { registerCheckSchemaTool } from "./check-schema.js";
 import { registerAnalyzeSerpTool } from "./analyze-serp.js";
 import { registerKeywordClusterTool } from "./keyword-cluster.js";
 import { registerSaveReportTool } from "./save-report.js";
+import { registerCrawlSiteTool } from "./crawl-site.js";
 
 export function registerSeoTools(server: McpServer) {
   registerFetchPageTool(server);
@@ -11,4 +12,5 @@ export function registerSeoTools(server: McpServer) {
   registerAnalyzeSerpTool(server);
   registerKeywordClusterTool(server);
   registerSaveReportTool(server);
+  registerCrawlSiteTool(server);
 }

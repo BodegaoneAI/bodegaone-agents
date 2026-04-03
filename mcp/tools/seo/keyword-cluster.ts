@@ -8,8 +8,8 @@ export function registerKeywordClusterTool(server: McpServer) {
       title: "Build Topical Keyword Cluster",
       description:
         "Takes a seed keyword and maps out a topical cluster: the pillar page, " +
-        "supporting cluster pages, and related long-tail queries. Helps build topical " +
-        "authority — the #1 factor for ranking in competitive niches. " +
+        "supporting cluster pages, and related long-tail queries. Topical authority " +
+        "is the #1 factor for ranking in competitive niches. " +
         "Requires BRAVE_SEARCH_API_KEY for live data; works in planning mode without it.",
       inputSchema: z.object({
         seedKeyword: z.string().describe("The main topic or keyword to cluster around"),
@@ -18,13 +18,12 @@ export function registerKeywordClusterTool(server: McpServer) {
           .optional()
           .default("planning")
           .describe(
-            "planning: uses keyword logic only (no API needed). " +
+            "planning: keyword logic only (no API needed). " +
             "live: fetches real search data (requires BRAVE_SEARCH_API_KEY)."
           ),
       }),
     },
     async ({ seedKeyword, mode }) => {
-      // Planning mode — always works, no API needed
       const cluster = buildTopicalCluster(seedKeyword);
 
       if (mode === "live") {
@@ -35,29 +34,66 @@ export function registerKeywordClusterTool(server: McpServer) {
               {
                 type: "text" as const,
                 text: [
-                  "⚠️  Live mode requires BRAVE_SEARCH_API_KEY.",
-                  "Set the env var or use mode: 'planning' for keyword logic without search data.",
-                  "",
-                  "Planning mode output:",
-                  JSON.stringify(cluster, null, 2),
+                  `## Keyword Cluster: "${seedKeyword}"`,
+                  ``,
+                  `⚠️  Live mode needs BRAVE_SEARCH_API_KEY. Falling back to planning mode.`,
+                  ``,
+                  formatCluster(cluster),
                 ].join("\n"),
               },
             ],
           };
         }
-        // Live mode would fetch actual search volumes — extend here
+        // Live mode would layer in actual search volume data — extend here
       }
 
       return {
-        content: [{ type: "text" as const, text: JSON.stringify(cluster, null, 2) }],
+        content: [{ type: "text" as const, text: formatCluster(cluster) }],
       };
     }
   );
 }
 
-export function buildTopicalCluster(seed: string) {
-  const words = seed.toLowerCase().split(/\s+/);
+function formatCluster(cluster: ReturnType<typeof buildTopicalCluster>): string {
+  const lines: string[] = [
+    `## Keyword Cluster: "${cluster.seedKeyword}"`,
+    ``,
+    `### Pillar Page`,
+    `**Title:** ${cluster.pillarPage.title}`,
+    `**Target:** ${cluster.pillarPage.targetLength} · ${cluster.pillarPage.intent}`,
+    ``,
+    `Must include:`,
+  ];
+  for (const item of cluster.pillarPage.mustInclude) {
+    lines.push(`  · ${item}`);
+  }
 
+  lines.push(``, `### Cluster Pages (${cluster.clusterPages.length})`);
+  for (let i = 0; i < cluster.clusterPages.length; i++) {
+    const p = cluster.clusterPages[i];
+    lines.push(`**${i + 1}. ${p.angle}** — ${p.title}`);
+    lines.push(`   Intent: ${p.intent} · Schema: ${p.schema.join(", ")}`);
+  }
+
+  lines.push(``, `### Long-Tail Queries`);
+  for (const q of cluster.longTailQueries) {
+    lines.push(`  · ${q}`);
+  }
+
+  lines.push(``, `### GEO Opportunities`);
+  for (const opp of cluster.geoOpportunities) {
+    lines.push(`  → ${opp}`);
+  }
+
+  lines.push(``, `### Internal Linking Plan`);
+  for (const link of cluster.internalLinkingPlan) {
+    lines.push(`  · ${link}`);
+  }
+
+  return lines.join("\n");
+}
+
+export function buildTopicalCluster(seed: string) {
   return {
     seedKeyword: seed,
     pillarPage: {
@@ -98,7 +134,7 @@ export function buildTopicalCluster(seed: string) {
         schema: ["Article", "FAQPage"],
       },
       {
-        angle: "Tools/Resources",
+        angle: "Tools / Resources",
         title: `Best Tools for ${titleCase(seed)} (${new Date().getFullYear()})`,
         intent: "commercial investigation",
         schema: ["ItemList", "Article"],
@@ -124,7 +160,7 @@ export function buildTopicalCluster(seed: string) {
       `Name any proprietary frameworks (e.g. "The ${titleCase(seed)} Maturity Model")`,
     ],
     internalLinkingPlan: [
-      `Pillar page links to all cluster pages`,
+      `Pillar page links out to all cluster pages`,
       `All cluster pages link back to the pillar page`,
       `Cluster pages cross-link to each other when contextually relevant`,
       `Use descriptive anchor text matching the target page's primary keyword`,
