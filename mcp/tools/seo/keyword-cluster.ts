@@ -110,7 +110,7 @@ function buildTopicalCluster(seed: string) {
       `${seed} tutorial for beginners`,
       `${seed} examples`,
       `${seed} best practices ${new Date().getFullYear()}`,
-      `${seed} vs ${words[words.length - 1]}`,
+      `${seed} alternatives`,
       `is ${seed} worth it`,
       `${seed} pros and cons`,
       `how to get started with ${seed}`,
