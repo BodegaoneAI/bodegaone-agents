@@ -1,0 +1,45 @@
+{
+  "name": "bodegaone-agents",
+  "version": "0.1.0",
+  "description": "Specialized AI agents for SEO/GEO, content, planning, and design — built for operators and founders",
+  "type": "module",
+  "bin": {
+    "bodegaone-agents": "./dist/mcp/server.js"
+  },
+  "main": "./dist/mcp/server.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx mcp/server.ts --stdio",
+    "typecheck": "tsc --noEmit",
+    "inspector": "npx @modelcontextprotocol/inspector tsx mcp/server.ts --stdio"
+  },
+  "keywords": [
+    "mcp",
+    "ai-agent",
+    "seo",
+    "geo",
+    "generative-engine-optimization",
+    "claude",
+    "llm",
+    "model-context-protocol"
+  ],
+  "author": "Bodega One <hello@bodegaone.ai>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BodegaoneAI/bodegaone-agents.git"
+  },
+  "homepage": "https://github.com/BodegaoneAI/bodegaone-agents#readme",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.5.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
