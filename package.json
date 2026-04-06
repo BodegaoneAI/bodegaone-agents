@@ -46,7 +46,7 @@
     "zod": "^3.23.0"
   },
   "devDependencies": {
-    "@types/node": "^22.0.0",
+    "@types/node": "^22.19.17",
     "@vitest/coverage-v8": "^4.1.2",
     "msw": "^2.12.14",
     "tsx": "^4.0.0",
