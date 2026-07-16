@@ -78,6 +78,18 @@ realistic plan, and each ships with a `plan_lint` mode that checks the draft for
 
 ---
 
+### [Researcher Agent](./agents/researcher/) — Available Now
+
+Turns a question into an honest, cited brief. Its defining rule is rigor: it cites every claim,
+verifies load-bearing facts across independent sources, separates verified fact from inference
+from speculation, labels confidence on every finding, and **never fabricates a source or a
+statistic**. It treats "I could not verify this" as a finding, not a failure, and it surfaces
+where good sources disagree instead of papering over it. Research feeds the strategy planner and
+the content writer. Ships with `research_lint`, which checks a brief for unsourced claims, vague
+attribution, source diversity, dates, confidence levels, and acknowledged uncertainty.
+
+---
+
 ## Why these exist
 
 BodegaOne Agents are free and MIT-licensed, built to give the community the same caliber of
@@ -230,6 +242,7 @@ npx tsx mcp/server.ts --stdio
 | `seo_save_report` | Saves a complete scored audit as markdown: a Pass/Warn/Fail scorecard across 8 categories, per-category detail, diagnosis, and prioritized actions | — |
 | `content_lint` | Lints a markdown draft against the SEO/AEO/GEO writing spec: em dashes, marketing fluff and AI tells, hedging, heading structure, answer-first openers, FAQ presence, title/meta length, anchor text, and depth. Returns a Pass/Warn/Fail scorecard plus line-level fixes | — |
 | `plan_lint` | Checks a plan draft for completeness against a planner's standards. `type: project` (milestones, owners, estimates, dependencies, definition of done, risks, next action), `type: strategy` (measurable objective, target segment, positioning, GTM, pricing, metrics, assumptions), or `type: personal` (one top priority, manageable load, time-blocking, boundaries). Returns a Pass/Warn/Fail scorecard with fixes | — |
+| `research_lint` | Checks a research brief for rigor: unsourced claims and statistics, vague attribution ("studies show", "experts say"), source diversity, dated sources, confidence levels, and acknowledged uncertainty. Returns a Pass/Warn/Fail scorecard plus specific fixes | — |
 
 ---
 
@@ -284,8 +297,8 @@ One agent, done exceptionally well, before moving to the next.
 | Project Planner | Available |
 | Business Strategy Planner | Available |
 | Personal Planner | Available |
+| Researcher | Available |
 | Designer | Coming soon |
-| Researcher | Coming soon |
 
 ---
 

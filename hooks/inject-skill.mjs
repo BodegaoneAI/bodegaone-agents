@@ -85,6 +85,16 @@ const SKILLS = [
     ],
     file: join(REPO_ROOT, "skills", "personal-planner", "SKILL.md"),
   },
+  {
+    name: "researcher",
+    patterns: [
+      /[/\\]research[/\\]/i,
+      /RESEARCH\.md$/i,
+      /\.brief\.md$/i,
+      /[/\\]findings[/\\]/i,
+    ],
+    file: join(REPO_ROOT, "skills", "researcher", "SKILL.md"),
+  },
 ];
 
 // ── Session-level deduplication ────────────────────────────────────────────
