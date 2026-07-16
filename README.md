@@ -90,6 +90,18 @@ attribution, source diversity, dates, confidence levels, and acknowledged uncert
 
 ---
 
+### [Designer Agent](./agents/designer/) — Available Now
+
+Helps non-designers make interfaces that are clear, usable, accessible, and on-brand. It gives
+specific, grounded decisions on visual hierarchy, typography, spacing, color, components and
+their states, and responsive layout, and hands off design tokens and specs a developer can build
+from. Accessibility is non-negotiable: every text and interactive color must meet WCAG AA
+contrast, verified with the `design_lint` tool rather than eyeballed. It diagnoses the real
+problem (usually hierarchy, spacing, or contrast, not "style") and is honest that final polish
+needs real rendering and user testing.
+
+---
+
 ## Why these exist
 
 BodegaOne Agents are free and MIT-licensed, built to give the community the same caliber of
@@ -243,6 +255,7 @@ npx tsx mcp/server.ts --stdio
 | `content_lint` | Lints a markdown draft against the SEO/AEO/GEO writing spec: em dashes, marketing fluff and AI tells, hedging, heading structure, answer-first openers, FAQ presence, title/meta length, anchor text, and depth. Returns a Pass/Warn/Fail scorecard plus line-level fixes | — |
 | `plan_lint` | Checks a plan draft for completeness against a planner's standards. `type: project` (milestones, owners, estimates, dependencies, definition of done, risks, next action), `type: strategy` (measurable objective, target segment, positioning, GTM, pricing, metrics, assumptions), or `type: personal` (one top priority, manageable load, time-blocking, boundaries). Returns a Pass/Warn/Fail scorecard with fixes | — |
 | `research_lint` | Checks a research brief for rigor: unsourced claims and statistics, vague attribution ("studies show", "experts say"), source diversity, dated sources, confidence levels, and acknowledged uncertainty. Returns a Pass/Warn/Fail scorecard plus specific fixes | — |
+| `design_lint` | Checks foreground/background color pairs for WCAG contrast. Returns the exact ratio and AA/AAA pass or fail for each pair (normal or large text) with fixes, so your palette is accessible before the colors spread through the design | — |
 
 ---
 
@@ -298,7 +311,7 @@ One agent, done exceptionally well, before moving to the next.
 | Business Strategy Planner | Available |
 | Personal Planner | Available |
 | Researcher | Available |
-| Designer | Coming soon |
+| Designer | Available |
 
 ---
 

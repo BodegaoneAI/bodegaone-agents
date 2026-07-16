@@ -95,6 +95,19 @@ const SKILLS = [
     ],
     file: join(REPO_ROOT, "skills", "researcher", "SKILL.md"),
   },
+  {
+    name: "designer",
+    patterns: [
+      /[/\\]design[/\\]/i,
+      /DESIGN\.md$/i,
+      /\.design\.md$/i,
+      /design-system/i,
+      /[/\\]tokens[/\\]/i,
+      /[/\\]theme[/\\]/i,
+      /tailwind\.config\./i,
+    ],
+    file: join(REPO_ROOT, "skills", "designer", "SKILL.md"),
+  },
 ];
 
 // ── Session-level deduplication ────────────────────────────────────────────
