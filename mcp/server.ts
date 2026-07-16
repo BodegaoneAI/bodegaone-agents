@@ -7,11 +7,13 @@ export function createServer() {
     { name: "bodegaone-agents", version: "1.0.0" },
     {
       instructions:
-        "BodegaOne Agents — specialized tools for SEO/GEO analysis. " +
+        "BodegaOne Agents — specialized tools for SEO/AEO/GEO analysis and content writing. " +
         "Use seo_fetch_page to analyze a live URL, seo_check_schema to validate " +
         "structured data, seo_analyze_serp to research keyword competition, " +
-        "seo_keyword_cluster to map topical authority opportunities, and " +
-        "seo_save_report to write a full audit report to disk as a markdown file.",
+        "seo_keyword_cluster to map topical authority opportunities, seo_crawl_site to " +
+        "audit an entire site, and seo_save_report to write a full audit report to disk. " +
+        "Use content_lint to check a markdown draft against the SEO/AEO/GEO writing spec " +
+        "before publishing.",
     }
   );
 

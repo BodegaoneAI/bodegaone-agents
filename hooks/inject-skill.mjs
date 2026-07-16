@@ -42,8 +42,18 @@ const SKILLS = [
     ],
     file: join(REPO_ROOT, "skills", "seo-geo", "SKILL.md"),
   },
+  {
+    name: "content-writer",
+    patterns: [
+      /[/\\]content[/\\]/i,       // /content/ directory
+      /[/\\]posts[/\\]/i,         // /posts/ directory
+      /[/\\]_posts[/\\]/i,        // /_posts/ (Jekyll/Next)
+      /[/\\]articles[/\\]/i,      // /articles/ directory
+      /\.mdx$/i,                  // .mdx content files
+    ],
+    file: join(REPO_ROOT, "skills", "content-writer", "SKILL.md"),
+  },
   // Future agents:
-  // { name: "content", patterns: [...], file: join(REPO_ROOT, "skills", "content", "SKILL.md") },
   // { name: "planner", patterns: [...], file: join(REPO_ROOT, "skills", "planner", "SKILL.md") },
 ];
 

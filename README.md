@@ -44,6 +44,21 @@ official best practice, or an observed pattern, so you always know how much to t
 
 ---
 
+### [Content Writer Agent](./agents/content-writer/) — Available Now
+
+The generative counterpart to the SEO/GEO agent: that one grades a page, this one **writes
+to the spec that earns the grade**. Give it a topic, keyword, or rough draft and it returns a
+complete, publish-ready package: SEO title, meta description, slug, the full article in clean
+markdown, suggested JSON-LD schema, internal-link suggestions, and a self-lint scorecard.
+
+It writes for **SEO, AEO, and GEO at the same time** — ranking, answer extraction, and AI
+citation — and **self-checks every draft** with the `content_lint` tool: no em dashes, no
+marketing fluff, answer-first sections, question-phrased headings, correct metadata lengths,
+descriptive anchors, cited sources, and Google-AI-content-policy compliance. It fixes what
+the linter flags until the draft passes.
+
+---
+
 ## Installation
 
 Pick the method that matches how you use AI.
@@ -136,6 +151,7 @@ npx tsx mcp/server.ts --stdio
 | `seo_keyword_cluster` | Maps a full topical cluster and query fan-out sub-questions from a seed keyword: pillar spec, cluster pages, long-tail queries, and an internal linking plan. Works without an API key in planning mode | — (planning mode) |
 | `seo_crawl_site` | Discovers pages via `sitemap.xml` (with sitemap-index support) or an internal-link crawl, audits up to 200 pages, and returns a site-wide issue table with the worst pages surfaced | — |
 | `seo_save_report` | Saves a complete scored audit as markdown: a Pass/Warn/Fail scorecard across 8 categories, per-category detail, diagnosis, and prioritized actions | — |
+| `content_lint` | Lints a markdown draft against the SEO/AEO/GEO writing spec: em dashes, marketing fluff and AI tells, hedging, heading structure, answer-first openers, FAQ presence, title/meta length, anchor text, and depth. Returns a Pass/Warn/Fail scorecard plus line-level fixes | — |
 
 ---
 
@@ -186,7 +202,7 @@ One agent, done exceptionally well, before moving to the next.
 | Agent | Status |
 |---|---|
 | SEO / AEO / GEO | Available |
-| Content Writer | Coming soon |
+| Content Writer | Available |
 | Planner | Coming soon |
 | Designer | Coming soon |
 | Researcher | Coming soon |
