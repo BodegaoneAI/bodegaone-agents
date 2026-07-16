@@ -59,6 +59,25 @@ the linter flags until the draft passes.
 
 ---
 
+### Planner Suite — Available Now
+
+Three focused planning agents, one per problem. Each turns a fuzzy ask into a structured,
+realistic plan, and each ships with a `plan_lint` mode that checks the draft for completeness.
+
+- **[Project Planner](./agents/project-planner/)** — turns a goal into an execution plan:
+  outcome milestones; tasks with owners, estimates, dependencies, and a definition of done; the
+  critical path; a risk table; and one clear next action. It stays realistic about the people
+  and time that actually exist.
+- **[Business Strategy Planner](./agents/strategy-planner/)** — turns a business goal into a
+  focused strategy: one target segment, sharp positioning in the customer's terms, one
+  go-to-market wedge, a model, measurable metrics, and a cheap experiment for the riskiest
+  assumption. It forces focus and names what you are deliberately not doing.
+- **[Personal Planner](./agents/personal-planner/)** — turns a messy list and a fixed amount of
+  time into a focused, time-blocked day or week: one most-important task, everything else
+  deferred, delegated, or deleted, and a realistic, kind tone instead of a guilt trip.
+
+---
+
 ## Why these exist
 
 BodegaOne Agents are free and MIT-licensed, built to give the community the same caliber of
@@ -125,9 +144,9 @@ session. Update later with `/plugin marketplace update bodegaone`.
 
 ### Method 3 — MCP server in any MCP client (tools only)
 
-Runs the six analysis tools plus `content_lint` in any MCP client. It works today with no npm
-setup by running straight from GitHub. The first run builds and caches (Node 20+ required);
-later runs are instant.
+Runs every tool (the six SEO analysis tools plus `content_lint` and `plan_lint`) in any MCP
+client. It works today with no npm setup by running straight from GitHub. The first run builds
+and caches (Node 20+ required); later runs are instant.
 
 **Claude Code (CLI):**
 ```bash
@@ -210,6 +229,7 @@ npx tsx mcp/server.ts --stdio
 | `seo_crawl_site` | Discovers pages via `sitemap.xml` (with sitemap-index support) or an internal-link crawl, audits up to 200 pages, and returns a site-wide issue table with the worst pages surfaced | — |
 | `seo_save_report` | Saves a complete scored audit as markdown: a Pass/Warn/Fail scorecard across 8 categories, per-category detail, diagnosis, and prioritized actions | — |
 | `content_lint` | Lints a markdown draft against the SEO/AEO/GEO writing spec: em dashes, marketing fluff and AI tells, hedging, heading structure, answer-first openers, FAQ presence, title/meta length, anchor text, and depth. Returns a Pass/Warn/Fail scorecard plus line-level fixes | — |
+| `plan_lint` | Checks a plan draft for completeness against a planner's standards. `type: project` (milestones, owners, estimates, dependencies, definition of done, risks, next action), `type: strategy` (measurable objective, target segment, positioning, GTM, pricing, metrics, assumptions), or `type: personal` (one top priority, manageable load, time-blocking, boundaries). Returns a Pass/Warn/Fail scorecard with fixes | — |
 
 ---
 
@@ -261,7 +281,9 @@ One agent, done exceptionally well, before moving to the next.
 |---|---|
 | SEO / AEO / GEO | Available |
 | Content Writer | Available |
-| Planner | Coming soon |
+| Project Planner | Available |
+| Business Strategy Planner | Available |
+| Personal Planner | Available |
 | Designer | Coming soon |
 | Researcher | Coming soon |
 

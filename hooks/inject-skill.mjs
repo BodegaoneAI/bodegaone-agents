@@ -53,8 +53,38 @@ const SKILLS = [
     ],
     file: join(REPO_ROOT, "skills", "content-writer", "SKILL.md"),
   },
-  // Future agents:
-  // { name: "planner", patterns: [...], file: join(REPO_ROOT, "skills", "planner", "SKILL.md") },
+  {
+    name: "project-planner",
+    patterns: [
+      /PLAN\.md$/i,
+      /ROADMAP\.md$/i,
+      /\.plan\.md$/i,
+      /[/\\]planning[/\\]/i,
+      /[/\\]roadmap[/\\]/i,
+    ],
+    file: join(REPO_ROOT, "skills", "project-planner", "SKILL.md"),
+  },
+  {
+    name: "strategy-planner",
+    patterns: [
+      /STRATEGY\.md$/i,
+      /[/\\]strategy[/\\]/i,
+      /[/\\]gtm[/\\]/i,
+      /go-to-market/i,
+      /business[-_]?plan/i,
+    ],
+    file: join(REPO_ROOT, "skills", "strategy-planner", "SKILL.md"),
+  },
+  {
+    name: "personal-planner",
+    patterns: [
+      /daily[-_]?plan/i,
+      /weekly[-_]?plan/i,
+      /[/\\]planner[/\\]/i,
+      /[/\\]journal[/\\]/i,
+    ],
+    file: join(REPO_ROOT, "skills", "personal-planner", "SKILL.md"),
+  },
 ];
 
 // ── Session-level deduplication ────────────────────────────────────────────

@@ -14,7 +14,8 @@ export function createServer() {
         "seo_keyword_cluster to map topical authority opportunities, seo_crawl_site to " +
         "audit an entire site, and seo_save_report to write a full audit report to disk. " +
         "Use content_lint to check a markdown draft against the SEO/AEO/GEO writing spec " +
-        "before publishing.",
+        "before publishing. Use plan_lint (type: project | strategy | personal) to check a " +
+        "plan draft for completeness.",
     }
   );
 
