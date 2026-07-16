@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "bodegaone-agents": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "github:BodegaoneAI/bodegaone-agents", "--stdio"]
+    }
+  }
+}

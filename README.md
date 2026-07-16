@@ -59,78 +59,128 @@ the linter flags until the draft passes.
 
 ---
 
+## Why these exist
+
+BodegaOne Agents are free and MIT-licensed, built to give the community the same caliber of
+search, answer-engine, and content tooling that usually sits behind a subscription. The
+principles:
+
+- **Free and open.** MIT-licensed. Use them, fork them, ship them inside your own product. No
+  seat fees, no upsell.
+- **No data collection.** The agents run in your own LLM client, and the tools run on your own
+  machine. Nothing you audit or write is sent to us. There is no telemetry.
+- **Grounded in primary sources, not SEO folklore.** Every rule traces to official Google or
+  Bing documentation or an AI-crawler operator's own docs. [`RESEARCH.md`](./agents/seo-geo/RESEARCH.md)
+  shows the receipts.
+- **Honest about what is dead.** We tell you when a tactic stopped working (FAQ and HowTo rich
+  results are deprecated) instead of selling it back to you.
+- **No lock-in.** The core of each agent is a plain-text system prompt. Paste it into Claude,
+  ChatGPT, Gemini, or any model. The tools are optional.
+
+### How they compare
+
+| | Typical paid SEO tool / AI writer | BodegaOne Agents |
+|---|---|---|
+| Price | $50–500+/mo | Free, MIT |
+| Where your data goes | Their servers | Your client, your machine |
+| Source of its "best practices" | Recycled SEO blogs | Official Google/Bing + operator docs |
+| Portability | Locked to their app | Paste the prompt into any model |
+| Answer-engine + AI-citation coverage | Rare or bolted on | Built in (AEO + GEO) |
+
+---
+
 ## Installation
 
-Pick the method that matches how you use AI.
+Two agents, several ways to run them. Pick the row that matches how you work.
 
-### Option 1 — Paste the system prompt (zero setup, any LLM)
+| You use | Best method |
+|---|---|
+| Any LLM (Claude, ChatGPT, Gemini) | **Method 1** — paste the system prompt |
+| Claude Code | **Method 2** — install the plugin (agents + tools together) |
+| Cursor, Claude Desktop, VS Code, any MCP client | **Method 3** — add the MCP server |
+| Contributing or running from source | **Method 4** — clone and build |
 
-Copy [`agents/seo-geo/system.md`](./agents/seo-geo/system.md) into your LLM's system prompt
-or custom instructions. Works in Claude, ChatGPT, Gemini, or any model that accepts a system
-prompt. No tools, no server, no install — just a significantly smarter search brain.
+### Method 1 — Paste the system prompt (zero setup, any LLM)
 
-### Option 2 — MCP tool server (recommended)
+Copy the agent's `system.md` into your model's system prompt or custom instructions:
 
-Unlocks six live analysis tools: page fetching, schema validation, SERP research, keyword
-clustering, full-site crawling, and report generation.
+- SEO/AEO/GEO: [`agents/seo-geo/system.md`](./agents/seo-geo/system.md)
+- Content Writer: [`agents/content-writer/system.md`](./agents/content-writer/system.md)
 
-#### Claude Code
+Works in Claude, ChatGPT (as a Custom GPT or a system prompt), Gemini (as a Gem), or any model
+that accepts a system prompt. No tools, no server, no install.
 
-```bash
-claude mcp add bodegaone-agents --scope user -- npx -y bodegaone-agents --stdio
+### Method 2 — Claude Code plugin (recommended for Claude Code)
+
+One install gives you both agents' auto-injecting skills, the editor hooks, and all the MCP
+tools. Inside Claude Code, run:
+
+```
+/plugin marketplace add BodegaoneAI/bodegaone-agents
+/plugin install bodegaone-agents@bodegaone
 ```
 
-Run that once. The agent is available in every Claude Code session.
+Skills auto-surface when you edit SEO or content files, and the tools are available in every
+session. Update later with `/plugin marketplace update bodegaone`.
 
-#### Claude Desktop
+### Method 3 — MCP server in any MCP client (tools only)
 
-Add to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or
-`%APPDATA%\Claude\claude_desktop_config.json` (Windows):
+Runs the six analysis tools plus `content_lint` in any MCP client. It works today with no npm
+setup by running straight from GitHub. The first run builds and caches (Node 20+ required);
+later runs are instant.
+
+**Claude Code (CLI):**
+```bash
+claude mcp add bodegaone-agents --scope user -- npx -y github:BodegaoneAI/bodegaone-agents --stdio
+```
+
+**Claude Desktop / Cursor / Windsurf / VS Code** — add to your client's MCP config:
 
 ```json
 {
   "mcpServers": {
     "bodegaone-agents": {
       "command": "npx",
-      "args": ["-y", "bodegaone-agents", "--stdio"]
+      "args": ["-y", "github:BodegaoneAI/bodegaone-agents", "--stdio"]
     }
   }
 }
 ```
 
-#### Cursor / Windsurf / VS Code / any MCP client
+Claude Desktop config file location:
+- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+- Linux: `~/.config/Claude/claude_desktop_config.json`
 
-Use the same `npx -y bodegaone-agents --stdio` command in your client's MCP server config.
+#### Optional: Brave Search API (for SERP tools)
 
-#### Optional: Brave Search API (for SERP analysis)
+`seo_analyze_serp` and the live mode of `seo_keyword_cluster` use a free Brave Search API key
+([brave.com/search/api](https://brave.com/search/api), 2,000 queries/month). Pass it in the
+MCP config so it works on every OS:
 
-`seo_analyze_serp` and the live mode of `seo_keyword_cluster` need a Brave Search API key.
-Get a free key at [brave.com/search/api](https://brave.com/search/api) — 2,000 free
-queries/month.
-
-```bash
-export BRAVE_SEARCH_API_KEY=your_key_here
+```json
+{
+  "mcpServers": {
+    "bodegaone-agents": {
+      "command": "npx",
+      "args": ["-y", "github:BodegaoneAI/bodegaone-agents", "--stdio"],
+      "env": { "BRAVE_SEARCH_API_KEY": "your_key_here" }
+    }
+  }
+}
 ```
 
+For the Claude Code CLI, add `--env BRAVE_SEARCH_API_KEY=your_key_here` before the `--`.
 Without the key every other tool works normally, and keyword clustering falls back to planning mode.
 
-### Option 3 — Claude Code plugin (auto-injection on relevant files)
-
-The repo includes a Claude Code hooks configuration that auto-injects SEO/AEO/GEO context
-whenever you edit SEO-relevant files (`robots.txt`, `sitemap.ts`, metadata, schema markup,
-blog content). No prompt required.
-
-```bash
-claude plugin install github:BodegaoneAI/bodegaone-agents
-```
-
-### Local development install
+### Method 4 — Run from source (contributors)
 
 ```bash
 git clone https://github.com/BodegaoneAI/bodegaone-agents.git
 cd bodegaone-agents
 npm install
 npm run build
+npm test
 
 # Run the MCP server from the built output
 node dist/mcp/server.js --stdio
@@ -138,6 +188,10 @@ node dist/mcp/server.js --stdio
 # Or run the TypeScript directly, no build step
 npx tsx mcp/server.ts --stdio
 ```
+
+> **Prefer the short `npx bodegaone-agents`?** Once this package is published to npm, swap
+> `github:BodegaoneAI/bodegaone-agents` for `bodegaone-agents` in any command above. Until
+> then, the GitHub form works with no extra setup.
 
 ---
 

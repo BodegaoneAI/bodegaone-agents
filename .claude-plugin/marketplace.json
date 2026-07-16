@@ -1,0 +1,26 @@
+{
+  "name": "bodegaone",
+  "owner": {
+    "name": "Bodega One",
+    "url": "https://bodegaone.ai"
+  },
+  "metadata": {
+    "description": "Bodega One's open-source AI agents for operators and founders.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "bodegaone-agents",
+      "source": "./",
+      "description": "SEO/AEO/GEO and content-writing agents: auto-injecting skills, expert system prompts, and live analysis tools.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Bodega One",
+        "url": "https://bodegaone.ai"
+      },
+      "homepage": "https://github.com/BodegaoneAI/bodegaone-agents",
+      "license": "MIT",
+      "keywords": ["seo", "aeo", "geo", "content", "mcp", "agents"]
+    }
+  ]
+}

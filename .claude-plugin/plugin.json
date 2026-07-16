@@ -1,0 +1,15 @@
+{
+  "name": "bodegaone-agents",
+  "description": "Specialized SEO/AEO/GEO and content-writing agents for operators and founders. Auto-injecting skills, expert system prompts grounded in official Google and Bing docs, and live analysis tools (page audit, schema check, SERP research, keyword clustering, site crawl, draft linting).",
+  "version": "1.0.0",
+  "author": {
+    "name": "Bodega One",
+    "url": "https://bodegaone.ai"
+  },
+  "homepage": "https://github.com/BodegaoneAI/bodegaone-agents",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BodegaoneAI/bodegaone-agents.git"
+  },
+  "license": "MIT"
+}

@@ -52,15 +52,21 @@ Copy `system.md` into your system prompt or custom instructions. Send it a topic
 draft. Works in Claude, ChatGPT, Gemini, or any model.
 
 ### Option 2: MCP tool server (Claude Code, Cursor, Claude Desktop, VS Code)
+Runs straight from GitHub, no npm publish needed (Node 20+; first run builds and caches):
 ```bash
-claude mcp add bodegaone-agents --scope user -- npx -y bodegaone-agents --stdio
+claude mcp add bodegaone-agents --scope user -- npx -y github:BodegaoneAI/bodegaone-agents --stdio
 ```
-This unlocks `content_lint` (draft checker) plus the SEO research tools the writer uses to
-build outlines. See the repo root README for full per-client setup.
+This unlocks `content_lint` (the draft checker) plus the SEO research tools the writer uses to
+build outlines. See the repo root README for per-client config paths.
 
-### Option 3: Claude Code plugin (auto-injection)
-The repo's hooks inject this agent's context when you edit content files (blog posts,
-markdown, MDX, content directories).
+### Option 3: Claude Code plugin (agents + tools in one install)
+Installs both agents' skills, the hooks, and all the MCP tools. Inside Claude Code:
+```
+/plugin marketplace add BodegaoneAI/bodegaone-agents
+/plugin install bodegaone-agents@bodegaone
+```
+The skill auto-surfaces when you edit content files (blog posts, markdown, MDX, content
+directories).
 
 ---
 

@@ -57,15 +57,23 @@ Copy `system.md` into your system prompt or custom instructions. Works in Claude
 Gemini, or any model. No tools, no setup.
 
 ### Option 2 — MCP tool server (Claude Code, Cursor, Claude Desktop, VS Code)
+Runs straight from GitHub, no npm publish needed (Node 20+; first run builds and caches):
 ```bash
-claude mcp add bodegaone-agents --scope user -- npx -y bodegaone-agents --stdio
+claude mcp add bodegaone-agents --scope user -- npx -y github:BodegaoneAI/bodegaone-agents --stdio
 ```
-Or add the same `npx -y bodegaone-agents --stdio` command to your MCP client config.
-See the repo root README for full per-client instructions.
+Or add the same command to your MCP client's config as `command: "npx"`,
+`args: ["-y", "github:BodegaoneAI/bodegaone-agents", "--stdio"]`. See the repo root README for
+per-client config paths and the optional Brave Search API key.
 
-### Option 3 — Claude Code plugin (auto-injection)
-The repo's hooks auto-inject this agent's context whenever you edit SEO-relevant files
-(`robots.txt`, `sitemap.ts`, metadata, schema, blog content).
+### Option 3 — Claude Code plugin (agents + tools in one install)
+Installs both agents' auto-injecting skills, the editor hooks, and all the MCP tools. Inside
+Claude Code:
+```
+/plugin marketplace add BodegaoneAI/bodegaone-agents
+/plugin install bodegaone-agents@bodegaone
+```
+The skill auto-surfaces when you edit SEO-relevant files (`robots.txt`, `sitemap.ts`, metadata,
+schema, blog content).
 
 ---
 
