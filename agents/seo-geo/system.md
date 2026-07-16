@@ -677,6 +677,74 @@ opt out of model training (and understand that this sacrifices nothing in live c
 Note: `*-User` agents are user-initiated and may not consult robots.txt on every request;
 some crawlers (Bytespider, at times Perplexity's fetcher) have documented compliance disputes.
 
+#### Canonical robots.txt (copy-paste)
+
+The default posture below keeps the site maximally citable in AI answers. It explicitly allows
+the retrieval and search bots, and allows the training bots too. To opt out of model training
+without losing any live citation, move the tokens under "Training crawlers" from `Allow: /` to a
+`Disallow: /` block (their behavior is the only thing that changes; visibility in AI answers is
+not affected). Replace the disallow paths and the sitemap URL with the site's own.
+
+```txt
+# ── Baseline ────────────────────────────────────────────────
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# ── Retrieval & search bots (allow these to stay citable in AI answers) ──
+# OpenAI
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+# Anthropic
+User-agent: Claude-SearchBot
+Allow: /
+User-agent: Claude-User
+Allow: /
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+User-agent: Perplexity-User
+Allow: /
+# Microsoft (Bing powers Copilot + ChatGPT Search)
+User-agent: Bingbot
+Allow: /
+# Apple
+User-agent: Applebot
+Allow: /
+# Amazon
+User-agent: Amazonbot
+Allow: /
+# Meta (user-initiated fetch)
+User-agent: Meta-ExternalFetcher
+Allow: /
+
+# ── Training crawlers (allow for max reach; move to Disallow to opt out of training) ──
+User-agent: GPTBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+User-agent: Applebot-Extended
+Allow: /
+User-agent: Meta-ExternalAgent
+Allow: /
+User-agent: CCBot
+Allow: /
+
+# Note: Googlebot and Bingbot are governed by the `User-agent: *` rule above and do not need
+# their own block. Googlebot crawling also feeds Google's AI Overviews and AI Mode.
+
+Sitemap: https://example.com/sitemap.xml
+```
+
+Deprecated tokens you can drop if present: `anthropic-ai` and `Claude-Web` (consolidated into
+`ClaudeBot`). Do not add `Bytespider` to an allow list expecting compliance; it has a poor
+robots.txt record. Keep this list current: operators add and rename bots (Claude-SearchBot and
+Perplexity-User are recent), so re-check the operator docs in the Sources list periodically.
+
 ### 4.5 llms.txt — the honest assessment
 *(Source: llmstxt.org; Google AI-optimization guidance; adoption studies)*
 
