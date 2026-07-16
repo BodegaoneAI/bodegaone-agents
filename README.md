@@ -6,6 +6,14 @@
 
 ## Agents
 
+> **Token cost** — each agent lists the extra context it adds, estimated with the
+> [Anthropic tokenizer](https://github.com/anthropics/anthropic-tokenizer-typescript). Two figures:
+> **system prompt** is loaded when you run the agent (Method 1 paste, or invoking it as a subagent)
+> and re-sent as input on every model call — this is the main per-run cost; **skill** is injected
+> once per session by the Claude Code plugin (Method 2) when you touch a matching file, then deduped
+> for the rest of that session. Figures are estimates and vary slightly by model; prompt caching
+> (on by default in most Claude clients) makes repeat turns far cheaper than the raw number implies.
+
 ### [SEO / AEO / GEO Agent](./agents/seo-geo/) — Available Now
 
 A senior Search, Answer Engine, and Generative Engine Optimization strategist in a single
@@ -42,6 +50,8 @@ official best practice, or an observed pattern, so you always know how much to t
 - llms.txt is useful for developer tooling but has no confirmed ranking or citation impact
 - E-E-A-T is not a score, and the helpful-content system is now part of core ranking
 
+**Token cost:** ≈16,700 tokens/run (system prompt) · ≈1,100 tokens once per session (auto-injected skill)
+
 ---
 
 ### [Content Writer Agent](./agents/content-writer/) — Available Now
@@ -57,6 +67,8 @@ marketing fluff, answer-first sections, question-phrased headings, correct metad
 descriptive anchors, cited sources, and Google-AI-content-policy compliance. It fixes what
 the linter flags until the draft passes.
 
+**Token cost:** ≈3,900 tokens/run (system prompt) · ≈760 tokens once per session (auto-injected skill)
+
 ---
 
 ### Planner Suite — Available Now
@@ -67,14 +79,14 @@ realistic plan, and each ships with a `plan_lint` mode that checks the draft for
 - **[Project Planner](./agents/project-planner/)** — turns a goal into an execution plan:
   outcome milestones; tasks with owners, estimates, dependencies, and a definition of done; the
   critical path; a risk table; and one clear next action. It stays realistic about the people
-  and time that actually exist.
+  and time that actually exist. **Token cost:** ≈1,850 tokens/run (system prompt) · ≈510 once per session (skill).
 - **[Business Strategy Planner](./agents/strategy-planner/)** — turns a business goal into a
   focused strategy: one target segment, sharp positioning in the customer's terms, one
   go-to-market wedge, a model, measurable metrics, and a cheap experiment for the riskiest
-  assumption. It forces focus and names what you are deliberately not doing.
+  assumption. It forces focus and names what you are deliberately not doing. **Token cost:** ≈2,100 tokens/run (system prompt) · ≈490 once per session (skill).
 - **[Personal Planner](./agents/personal-planner/)** — turns a messy list and a fixed amount of
   time into a focused, time-blocked day or week: one most-important task, everything else
-  deferred, delegated, or deleted, and a realistic, kind tone instead of a guilt trip.
+  deferred, delegated, or deleted, and a realistic, kind tone instead of a guilt trip. **Token cost:** ≈1,700 tokens/run (system prompt) · ≈460 once per session (skill).
 
 ---
 
@@ -88,6 +100,8 @@ where good sources disagree instead of papering over it. Research feeds the stra
 the content writer. Ships with `research_lint`, which checks a brief for unsourced claims, vague
 attribution, source diversity, dates, confidence levels, and acknowledged uncertainty.
 
+**Token cost:** ≈2,900 tokens/run (system prompt) · ≈640 tokens once per session (auto-injected skill)
+
 ---
 
 ### [Designer Agent](./agents/designer/) — Available Now
@@ -99,6 +113,8 @@ from. Accessibility is non-negotiable: every text and interactive color must mee
 contrast, verified with the `design_lint` tool rather than eyeballed. It diagnoses the real
 problem (usually hierarchy, spacing, or contrast, not "style") and is honest that final polish
 needs real rendering and user testing.
+
+**Token cost:** ≈3,700 tokens/run (system prompt) · ≈670 tokens once per session (auto-injected skill)
 
 ---
 
@@ -305,15 +321,17 @@ weak sections answer-first. [paste content]
 
 One agent, done exceptionally well, before moving to the next.
 
-| Agent | Status |
-|---|---|
-| SEO / AEO / GEO | Available |
-| Content Writer | Available |
-| Project Planner | Available |
-| Business Strategy Planner | Available |
-| Personal Planner | Available |
-| Researcher | Available |
-| Designer | Available |
+| Agent | Status | System prompt / run | Skill / session |
+|---|---|---|---|
+| SEO / AEO / GEO | Available | ≈16,700 | ≈1,100 |
+| Content Writer | Available | ≈3,900 | ≈760 |
+| Project Planner | Available | ≈1,850 | ≈510 |
+| Business Strategy Planner | Available | ≈2,100 | ≈490 |
+| Personal Planner | Available | ≈1,700 | ≈460 |
+| Researcher | Available | ≈2,900 | ≈640 |
+| Designer | Available | ≈3,700 | ≈670 |
+
+Token figures are estimates (Anthropic tokenizer); see [Agents](#agents) for how each is counted.
 
 ---
 
