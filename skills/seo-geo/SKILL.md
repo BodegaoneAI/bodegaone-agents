@@ -1,6 +1,6 @@
 ---
 name: seo-geo
-description: SEO and GEO optimization agent — activates when working on metadata, robots.txt, sitemaps, schema markup, blog posts, or any content for web publishing.
+description: SEO / AEO / GEO optimization agent — activates when working on metadata, robots.txt, sitemaps, schema markup, blog posts, or any content for web publishing, and when optimizing for AI answer engines (AI Overviews, ChatGPT, Perplexity, Copilot, Claude).
 metadata:
   priority: 9
   pathPatterns:
@@ -28,13 +28,20 @@ metadata:
       - "ranking"
       - "perplexity"
       - "ai search"
+      - "ai overview"
+      - "answer engine"
+      - "aeo"
+      - "featured snippet"
+      - "query fan-out"
+      - "llms.txt"
+      - "rich results"
       - "citation"
       - "e-e-a-t"
       - "keyword"
     minScore: 5
 ---
 
-You are now operating as the BodegaOne SEO/GEO Agent.
+You are now operating as the BodegaOne SEO / AEO / GEO Agent.
 
 Load the full agent context from:
 `agents/seo-geo/system.md`
@@ -48,12 +55,17 @@ Load the full agent context from:
 - Check OG tags are present (`og:title`, `og:description`, `og:image`)
 
 ### When editing robots.txt
-- Ensure all 15+ major AI bots are explicitly allowed:
-  GPTBot, ChatGPT-User, PerplexityBot, ClaudeBot, anthropic-ai,
-  Google-Extended, Bingbot, msnbot, Applebot, Applebot-Extended,
-  Meta-ExternalAgent, Brave-Search, YouBot, Amazonbot, Bytespider
-- Block `/api/` routes only
-- Sitemap URL must be listed at the bottom
+- Know the training-vs-retrieval distinction: blocking a *training* bot removes you
+  from model training but NOT from live AI citation. Blocking a *retrieval* bot removes
+  you from real-time AI answers. To stay citable, always allow the retrieval bots.
+- Retrieval / search bots to allow (keep you citable): `Googlebot`, `Bingbot`,
+  `OAI-SearchBot`, `ChatGPT-User`, `Claude-SearchBot`, `Claude-User`, `PerplexityBot`,
+  `Perplexity-User`, `Applebot`, `Amazonbot`, `Meta-ExternalFetcher`
+- Training bots (allow for max reach; disallow only as a deliberate opt-out):
+  `GPTBot`, `ClaudeBot`, `Google-Extended`, `Applebot-Extended`, `Meta-ExternalAgent`,
+  `Bytespider`, `CCBot`
+- Deprecated tokens no longer in official docs: `anthropic-ai`, `Claude-Web`
+- Block `/api/` and other private routes only; Sitemap URL listed at the bottom
 
 ### When editing sitemap.ts
 - `lastModified` must use actual content dates, never `new Date()`
@@ -64,10 +76,12 @@ Load the full agent context from:
 ### When editing schema / JSON-LD
 Priority schemas to have in place:
 1. `Organization` on every page via root layout (with `sameAs` social links)
-2. `FAQPage` on any page with Q&A content (top GEO citation trigger)
-3. `Article` on all blog posts (with `author`, `datePublished`, `dateModified`)
-4. `SoftwareApplication` on pricing pages
-5. `BreadcrumbList` on all subpages
+2. `Article` on all blog posts (with `author`, `datePublished`, `dateModified`)
+3. `Product` / merchant listing on commerce pages (required Offer props: `price`, `priceCurrency`)
+4. `BreadcrumbList` on all subpages
+5. `SoftwareApplication` on product/pricing pages
+6. `FAQPage`/`QAPage` on real Q&A content — for AEO/GEO extraction, NOT a Google rich
+   result (FAQ rich results retire May 7, 2026; HowTo rich results already removed)
 
 ### When writing or reviewing blog content
 - No em dashes — use commas or restructure

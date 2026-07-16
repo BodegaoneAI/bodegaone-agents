@@ -2,6 +2,9 @@
  * tests/tools/fetch-page.tool.test.ts
  * Tests the seo_fetch_page MCP tool end-to-end using mocked HTTP.
  * MSW intercepts fetch() calls — no real network traffic.
+ *
+ * The tool returns a readable plain-English markdown summary (not JSON),
+ * so these tests assert against that rendered output.
  */
 import { describe, it, expect } from "vitest";
 import { http, HttpResponse } from "msw";
@@ -26,13 +29,13 @@ async function createTestClient() {
   return client;
 }
 
-async function callFetchPage(client: Client, url: string) {
+/** Call the tool and return the rendered markdown text. */
+async function fetchPageText(client: Client, url: string): Promise<string> {
   const result = await client.callTool({
     name: "seo_fetch_page",
     arguments: { url },
   });
-  const text = (result.content as Array<{ type: string; text: string }>)[0].text;
-  return JSON.parse(text);
+  return (result.content as Array<{ type: string; text: string }>)[0].text;
 }
 
 // ── Tests ─────────────────────────────────────────────────────────────────────
@@ -40,52 +43,43 @@ async function callFetchPage(client: Client, url: string) {
 describe("seo_fetch_page tool", () => {
   it("returns all SEO signals for a well-formed page", async () => {
     const client = await createTestClient();
-    const data = await callFetchPage(client, "https://example-full.com/");
+    const text = await fetchPageText(client, "https://example-full.com/");
 
-    expect(data.url).toBe("https://example-full.com/");
-    expect(data.statusCode).toBe(200);
-    expect(data.title).toContain("SEO");
-    expect(data.metaDescription).toBeTruthy();
-    expect(data.metaDescriptionLength).toBeGreaterThan(0);
-    expect(data.canonical).toBe("https://example-full.com/");
-    expect(data.h1).toHaveLength(1);
-    expect(data.h2.length).toBeGreaterThan(0);
-    expect(data.hasSchema).toBe(true);
-    expect(data.schemaTypes).toContain("Organization");
-    expect(data.schemaTypes).toContain("FAQPage");
-    expect(data.ogTitle).toBeTruthy();
-    expect(data.ogDescription).toBeTruthy();
-    expect(data.issues).toHaveLength(0);
+    // Rendered summary surfaces the key signals
+    expect(text).toContain("SEO Check");
+    expect(text).toContain("Status:** 200");
+    expect(text).toContain("SEO"); // title mentions SEO
+    expect(text).toContain("1 H1");
+    expect(text).toMatch(/Schema:.*Organization/);
+    expect(text).toMatch(/Schema:.*FAQPage/);
+    expect(text).toContain("Canonical:** ✅");
+    expect(text).toContain("No issues found");
   });
 
   it("reports issues for a minimal page", async () => {
     const client = await createTestClient();
-    const data = await callFetchPage(client, "https://example-minimal.com/");
+    const text = await fetchPageText(client, "https://example-minimal.com/");
 
-    expect(data.issues).toContain("Missing <title> tag");
-    expect(data.issues).toContain("Missing meta description");
-    expect(data.issues).toContain("No H1 tag found");
-    expect(data.issues).toContain("No canonical URL set");
-    expect(data.issues.some((i: string) => i.includes("thin content"))).toBe(true);
+    expect(text).toContain("Missing <title> tag");
+    expect(text).toContain("Missing meta description");
+    expect(text).toContain("No H1 tag found");
+    expect(text).toContain("No canonical URL set");
+    expect(text).toContain("Thin content");
   });
 
   it("detects multiple H1 tags", async () => {
     const client = await createTestClient();
-    const data = await callFetchPage(client, "https://example-multi-h1.com/");
+    const text = await fetchPageText(client, "https://example-multi-h1.com/");
 
-    expect(data.h1).toHaveLength(3);
-    expect(
-      data.issues.some((i: string) => i.includes("Multiple H1"))
-    ).toBe(true);
+    expect(text).toContain("3 H1");
+    expect(text).toContain("Multiple H1");
   });
 
   it("detects invalid JSON-LD and reports parse error", async () => {
     const client = await createTestClient();
-    const data = await callFetchPage(client, "https://example-bad-schema.com/");
+    const text = await fetchPageText(client, "https://example-bad-schema.com/");
 
-    expect(
-      data.issues.some((i: string) => i.includes("Invalid JSON-LD"))
-    ).toBe(true);
+    expect(text).toContain("Invalid JSON-LD");
   });
 
   it("flags noindex pages", async () => {
@@ -104,11 +98,8 @@ describe("seo_fetch_page tool", () => {
       )
     );
 
-    const data = await callFetchPage(client, "https://noindex.example.com/");
-    expect(data.robotsContent).toBe("noindex, nofollow");
-    expect(
-      data.issues.some((i: string) => i.includes("noindex"))
-    ).toBe(true);
+    const text = await fetchPageText(client, "https://noindex.example.com/");
+    expect(text).toContain("noindex");
   });
 
   it("handles title length warnings", async () => {
@@ -126,8 +117,8 @@ describe("seo_fetch_page tool", () => {
       )
     );
 
-    const data = await callFetchPage(client, "https://shorttitle.example.com/");
-    expect(data.issues.some((i: string) => i.includes("Title too short"))).toBe(true);
+    const text = await fetchPageText(client, "https://shorttitle.example.com/");
+    expect(text).toContain("Title too short");
   });
 
   it("returns isError on network failure", async () => {
@@ -149,10 +140,12 @@ describe("seo_fetch_page tool", () => {
 
   it("counts internal and external links correctly", async () => {
     const client = await createTestClient();
-    const data = await callFetchPage(client, "https://example-full.com/");
+    const text = await fetchPageText(client, "https://example-full.com/");
 
     // full-seo.html has /blog and /about (internal) + google.com and moz.com (external)
-    expect(data.internalLinks).toBeGreaterThanOrEqual(2);
-    expect(data.externalLinks).toBeGreaterThanOrEqual(2);
+    const internal = Number(text.match(/(\d+) internal/)?.[1] ?? "0");
+    const external = Number(text.match(/(\d+) external/)?.[1] ?? "0");
+    expect(internal).toBeGreaterThanOrEqual(2);
+    expect(external).toBeGreaterThanOrEqual(2);
   });
 });

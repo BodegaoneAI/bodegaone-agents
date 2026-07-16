@@ -1,59 +1,71 @@
-# SEO/GEO Agent
+# SEO / AEO / GEO Agent
 
-> The most comprehensive SEO + Generative Engine Optimization agent available.
-> Built for founders, operators, and content teams who need results, not theory.
+> A senior-level Search, Answer Engine, and Generative Engine Optimization strategist,
+> grounded in official Google and Bing documentation and current AI-crawler operator docs.
+> Built for founders, operators, and content teams who need a diagnosis, not a checklist.
 
 ---
 
 ## What it does
 
-This agent combines traditional SEO expertise with deep knowledge of how AI search
-engines (Perplexity, ChatGPT Search, Gemini, Copilot, Claude) discover and cite content.
-It follows a 9-step methodology on every analysis:
+This agent masters three overlapping disciplines and never conflates them:
+
+- **SEO** — rank as a link in Google and Bing (the classic crawl, index, rank pipeline)
+- **AEO** — *be* the answer: featured snippets, People Also Ask, AI Overview answer boxes, voice
+- **GEO** — get *cited as a source* inside generative answers (ChatGPT, Perplexity, Claude, Gemini)
+
+It runs a 10-step methodology on every analysis:
 
 1. Intent classification
-2. Topical authority gap analysis
-3. E-E-A-T audit (Google's quality signals)
-4. GEO structure audit (AI citation optimization)
-5. Schema markup audit
-6. Technical SEO audit
-7. AI bot strategy
-8. Internal linking audit
-9. Prioritized quick wins
+2. Topical authority & query fan-out gap analysis
+3. E-E-A-T audit
+4. AEO audit (answer-first extractability)
+5. GEO structure audit (AI citation readiness)
+6. Schema markup audit
+7. Technical SEO audit
+8. AI discoverability audit (crawler policy, IndexNow, entity signals)
+9. Internal linking audit
+10. Prioritized output (Quick Wins / Medium Term / Strategic Moves)
+
+Every recommendation is labeled as an **official requirement**, an **official best
+practice**, or an **observed pattern** — so you always know how much to trust it.
+
+---
+
+## What makes it current (and correct)
+
+Most SEO agents repeat myths. This one is built to correct them:
+
+- **FAQ and HowTo rich results are deprecated.** FAQPage rich results leave Google Search
+  on May 7, 2026; HowTo rich results are already gone. The agent still recommends the schema
+  for AEO/GEO extraction, but never sells a Google rich result that no longer exists.
+- **AI crawlers split into training vs. retrieval.** Blocking GPTBot does not remove you
+  from ChatGPT Search. The agent knows which bots keep you citable and which only affect training.
+- **Query fan-out** is the mechanic behind AI Overviews and AI Mode, and the agent optimizes
+  for it directly (semantic completeness across sub-questions, self-contained passages).
+- **llms.txt** gets an honest treatment: useful for agents and developers, no confirmed
+  ranking or citation impact.
+- **E-E-A-T is not a score**, the helpful-content system is now part of core ranking, and
+  IndexNow reaches Bing (and therefore ChatGPT Search + Copilot) but not Google.
 
 ---
 
 ## How to use it
 
-### Option 1 — Paste into any LLM (Claude, ChatGPT, Gemini)
-Copy the contents of `system.md` into your Custom Instructions or System Prompt.
-Then send it a URL, keyword, or piece of content.
+### Option 1 — Paste the system prompt (any LLM)
+Copy `system.md` into your system prompt or custom instructions. Works in Claude, ChatGPT,
+Gemini, or any model. No tools, no setup.
 
-### Option 2 — Claude Code (with MCP tools)
+### Option 2 — MCP tool server (Claude Code, Cursor, Claude Desktop, VS Code)
 ```bash
-# Install the plugin
-claude plugin install github:BodegaoneAI/bodegaone-agents
-
-# The agent auto-injects when you're working on SEO-related files
+claude mcp add bodegaone-agents --scope user -- npx -y bodegaone-agents --stdio
 ```
+Or add the same `npx -y bodegaone-agents --stdio` command to your MCP client config.
+See the repo root README for full per-client instructions.
 
-### Option 3 — Any MCP client (Cursor, Claude Desktop, VS Code)
-```bash
-# Run the tool server locally
-npx bodegaone-agents --stdio
-```
-
-Add to your MCP config:
-```json
-{
-  "mcpServers": {
-    "bodegaone-agents": {
-      "command": "npx",
-      "args": ["-y", "bodegaone-agents", "--stdio"]
-    }
-  }
-}
-```
+### Option 3 — Claude Code plugin (auto-injection)
+The repo's hooks auto-inject this agent's context whenever you edit SEO-relevant files
+(`robots.txt`, `sitemap.ts`, metadata, schema, blog content).
 
 ---
 
@@ -61,65 +73,51 @@ Add to your MCP config:
 
 **Analyze a live page:**
 ```
-Analyze https://example.com/blog/my-post for SEO and GEO. Give me quick wins first.
+Analyze https://example.com/blog/my-post for SEO, AEO, and GEO. Quick wins first, then save the report.
 ```
 
 **Audit a keyword opportunity:**
 ```
-I want to rank for "best local AI IDE 2026". What's the content gap and what would
-it take to own this keyword?
+I want to rank for "best local AI IDE 2026". Map the query fan-out, find the content gap,
+and tell me what it takes to own it.
 ```
 
-**Review content before publishing:**
+**Review before publishing:**
 ```
-Review this blog post draft for SEO and GEO. Flag anything that would hurt E-E-A-T
-or reduce AI citation potential. [paste content]
+Review this draft. Flag anything hurting E-E-A-T or reducing AI citation potential,
+and rewrite the weak sections answer-first. [paste content]
 ```
 
-**Fix a specific technical issue:**
+**AI visibility:**
+```
+Why isn't my content cited by Perplexity or ChatGPT? Check my robots.txt bot policy and schema.
+```
+
+**Fix a technical issue:**
 ```
 My page is in the sitemap but noindexed. What's causing this and how do I fix it?
 ```
 
-**GEO-specific audit:**
-```
-Why isn't my content being cited by Perplexity when users ask about [topic]?
-What needs to change?
-```
-
 ---
 
-## What makes this different
-
-Most SEO agents give you a checklist. This one gives you a diagnosis.
-
-| Generic SEO agent | This agent |
-|---|---|
-| "Add keywords to your title" | Identifies the specific keyword, explains intent fit, tells you the exact title to write |
-| "Improve your content quality" | Runs E-E-A-T audit, flags specific sentences, identifies missing author attribution |
-| "Use structured data" | Identifies which schema types are missing, provides the exact JSON-LD to add |
-| No GEO knowledge | Knows how Perplexity, ChatGPT, Gemini, and Copilot select citations |
-| Generic checklist output | Prioritized: Quick Wins / Medium Term / Strategic Moves |
-
----
-
-## MCP Tools (optional, extends capabilities)
-
-When the MCP server is running, the agent gains access to:
+## MCP Tools
 
 | Tool | What it does |
 |---|---|
-| `seo_fetch_page` | Fetches a live URL and extracts all SEO signals |
-| `seo_check_schema` | Validates structured data against schema.org spec |
-| `seo_analyze_serp` | Analyzes top results for a keyword (requires Brave Search API key) |
-| `seo_keyword_cluster` | Builds topical cluster from a seed keyword |
-
-Tools requiring API keys will prompt you to set the relevant env var if missing.
+| `seo_fetch_page` | Fetch a live URL and extract every SEO signal + a detected-issues list |
+| `seo_check_schema` | Validate all JSON-LD against schema.org; flag missing high-value schemas |
+| `seo_analyze_serp` | Analyze the top results for a keyword (requires Brave Search API key) |
+| `seo_keyword_cluster` | Map a topical cluster and fan-out sub-questions from a seed keyword |
+| `seo_crawl_site` | Discover pages via sitemap (or link crawl) and audit the whole site |
+| `seo_save_report` | Save a full scored audit (8-category scorecard) to `./seo-reports/` |
 
 ---
 
-## Built by Bodega One
+## Files
 
-This agent is maintained by [Bodega One](https://bodegaone.ai) and built from
-real-world SEO work on production sites. Every pattern in `system.md` has been
-tested against actual rankings and AI citation behavior.
+- `system.md` — the full agent system prompt (paste this anywhere)
+- `RESEARCH.md` — every official source and the key finding from each
+- `README.md` — this file
+
+Built by [Bodega One](https://bodegaone.ai). Every pattern here is tested against real
+production sites and real AI citation behavior.
