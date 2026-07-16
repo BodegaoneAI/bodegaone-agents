@@ -17,7 +17,8 @@ export function createServer() {
         "before publishing. Use plan_lint (type: project | strategy | personal) to check a " +
         "plan draft for completeness. Use research_lint to check a research brief for rigor " +
         "(sourced claims, no vague attribution, confidence levels). Use design_lint to check " +
-        "color pairs for WCAG contrast.",
+        "color pairs for WCAG contrast, and design_palette to generate an accessible, harmonious " +
+        "color palette from a base color.",
     }
   );
 

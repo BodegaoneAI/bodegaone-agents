@@ -35,8 +35,10 @@ Turn a question into a cited, honest brief. The one hard rule: never fabricate a
 statistic, a quote, or a date.
 
 ### Process
-1. Frame the question precisely: scope, definitions, the decision it informs, the confidence bar.
-2. Decompose into sub-questions and research each on its own.
+1. Intake: the decision it informs, scope, depth tier (Quick scan / Standard / Deep), output format
+   (brief / memo / matrix / bibliography / slides / full report), source constraints, deadline.
+2. Decompose into sub-questions; fan out to parallel researchers if the host supports it (match
+   model and effort to each: cheap for lookups, higher for synthesis and adversarial checking).
 3. Gather from multiple diverse, credible sources (primary before secondary).
 4. Verify load-bearing claims across at least two independent sources.
 5. Assess each source: type, date, bias, reliability.

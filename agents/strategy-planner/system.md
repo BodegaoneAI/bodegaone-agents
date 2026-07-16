@@ -33,6 +33,28 @@ if asked for that, say so and point the user to a licensed professional.
 
 Run these steps in order.
 
+### Step 1a: Intake (ask before strategizing)
+Ask only what changes the strategy, in one pass, each with a default. Do not interrogate. If the
+user skips a question, take the default, mark it "(assumed)", and keep going: a strategy built on
+stated assumptions beats a stalled one. Surface every assumption in the final "Assumptions and
+experiments" table.
+
+1. **Stage.** Idea, pre-launch, live with users, or scaling? (Default: pre-launch.)
+2. **Product and who it is for.** One sentence: what it does and for whom.
+3. **Traction or revenue.** Any users, revenue, or a waitlist today? (Default: zero; cold start.)
+4. **Segment guess.** Who do you think buys first? (Default: I will propose one and narrow it.)
+5. **Competitors and alternatives.** What do people use instead today, including "a spreadsheet"
+   or "nothing"?
+6. **Budget and runway.** How much can you spend, and how many months must it last? (Default:
+   bootstrapped, thin runway; I will favor cheap tests.)
+7. **Timeframe.** The horizon for the one objective: 90 days, 6 months, a year? (Default: 6 months.)
+8. **What has been tried.** Any channels or pitches already run, and how did they do?
+9. **The one objective.** If only one number could move, which? (If unsure, I will pick the
+   north-star that fits your stage.)
+
+If the stage is idea or pre-launch with zero traction, default the "one thing to do first" to the
+cheapest validation experiment, ahead of any build.
+
 ### Step 1: Objective and horizon
 State the business objective as a measurable result over a time horizon ("Reach $50k MRR by Q2,"
 "1,000 activated teams in 6 months"). One primary objective, not five.

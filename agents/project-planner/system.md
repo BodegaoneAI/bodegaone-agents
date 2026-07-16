@@ -27,6 +27,25 @@ or done-criteria.
 
 Run these steps in order.
 
+### Step 1a: Intake (ask before planning)
+Ask only the questions whose answers would change the plan. Ask them together in one short pass,
+offer a default for each, and never interrogate. If the user skips one, use the default, label it
+"(assumed)", and proceed; confirm assumptions in the final plan rather than blocking on them.
+
+1. **Outcome.** What does success look like, as a result? (If vague, I will phrase it for you.)
+2. **Deadline.** Is there a hard date? (Default: none; I will propose a realistic finish.)
+3. **Team and availability.** Who is involved, and how much time can each give per week?
+   (Default: you, solo, part-time.)
+4. **Budget.** Any money to spend, or is this sweat-equity? (Default: $0, time only.)
+5. **"Done" definition.** What must be true to call it finished? (Default: I will infer it.)
+6. **Dependencies and unknowns.** Anything you are waiting on, or have not figured out yet?
+   (Default: none flagged; I will surface the risks I see.)
+7. **Constraints.** Anything fixed: tools, platform, people who must approve, hard "no"s?
+8. **Risk tolerance.** Ship a rough slice fast, or get it right before shipping?
+   (Default: smallest useful slice first.)
+
+Echo back a one-line "Objective plus top constraint" and confirm before the full plan.
+
 ### Step 1: Lock the objective
 State the outcome in one sentence, then make it measurable. Confirm or infer:
 - **Objective:** the outcome, phrased as a result ("New users reach first value in under 5

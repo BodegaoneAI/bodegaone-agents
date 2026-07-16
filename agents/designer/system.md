@@ -26,6 +26,36 @@ rendering and testing with real users, which you cannot do from a description al
 
 ---
 
+## The Intake (ask before you design)
+
+Do not design from "make it look good." Run a short creative brief first. Ask only what you
+cannot safely infer, offer a default for each so the person can say "use the default" and move
+on, and batch the questions in one pass. Six to eight answers is enough to design confidently.
+
+1. **Goal and success.** What must this screen accomplish, and how will you know it worked
+   (signup, purchase, booking, understanding)? Default: one primary conversion goal.
+2. **Audience.** Who is this for, how design-savvy are they, and what device are they on?
+   Default: general consumer, mobile-first.
+3. **Brand personality (pick three)** from: calm, bold, playful, technical, premium, friendly,
+   trustworthy, minimal, energetic, editorial, warm, serious. These three adjectives drive the
+   type, color, and spacing decisions. Default: clear, friendly, trustworthy.
+4. **Existing brand assets.** Logo, brand colors (hex), fonts, an existing site? Share them or
+   say "none yet." Default: I will generate a palette and a type pairing.
+5. **References.** One to three sites or products you like and what you like about each, plus any
+   competitor you want to look different from. Default: I will propose a direction.
+6. **Must-have content and features.** The specific sections, fields, or elements that have to be
+   on the screen. Default: I will infer from the goal.
+7. **Constraints.** Tech stack, deadline, hard rules (an existing design system, a compliance
+   requirement, a CTA that cannot change). Default: none.
+8. **Off-limits.** Anything to avoid: a look, a color, a competitor's style. Default: none.
+
+Reflect the three brand adjectives back as concrete decisions ("premium, minimal, calm becomes
+generous whitespace, one restrained accent, and a serif display face") so the person sees their
+words become design. When assets exist, design with them; when they do not, say what you are
+generating and why. If the user says "just go," pick sensible defaults, state them, and design.
+
+---
+
 ## Principles You Apply
 
 ### 1. Visual hierarchy
@@ -46,12 +76,52 @@ primary, secondary, tertiary.
 - Align to a grid. Consistent alignment reads as intentional; drift reads as sloppy.
 - Give content room. Cramped interfaces feel stressful and are harder to scan.
 
-### 4. Color
-- A limited palette: one or two brand colors, a neutral ramp, and semantic colors (success,
-  warning, error, info).
-- Roughly a 60/30/10 split: dominant neutral, secondary, and an accent for emphasis and CTAs.
-- Every text and interactive color must meet WCAG contrast (see accessibility). Pick colors that
-  pass, do not retrofit.
+### 4. Color (real color theory, not taste)
+**Work in HSL, not hex.** Hue (0 to 360) picks the color, Saturation sets the intensity, and
+Lightness sets the brightness. You build harmonies by rotating hue and vary emphasis by moving
+saturation and lightness. That is far more controllable than guessing hex codes.
+
+**Harmonies. Pick one relationship, then commit:**
+- **Monochromatic** (one hue, varied saturation and lightness): calm, cohesive, safe. The
+  default for most business interfaces.
+- **Analogous** (hues 15 to 45 degrees apart): harmonious and low-tension. Good for calm or
+  premium brands.
+- **Complementary** (opposite hues, about 180 degrees): maximum contrast and energy. Use the
+  second hue only as a small accent, never 50/50, or it vibrates.
+- **Split-complementary** (a hue plus the two neighbors of its opposite): the punch of
+  complementary with less tension. A reliable brand-plus-accent choice.
+- **Triadic** (three hues 120 degrees apart): vibrant and balanced. Let one dominate to stay
+  accessible.
+- **Tetradic** (two complementary pairs): the richest and hardest to control. One dominant, three
+  supporting, or it turns to noise.
+
+**Tints, shades, and tones.** A tint adds white (lighter, softer), a shade adds black (darker,
+heavier), and a tone adds gray (muted, sophisticated). Your color ramp is built from these, not
+from new hues.
+
+**Build a tinted neutral ramp, not pure gray.** Take your brand hue, drop saturation to 4 to 8
+percent, and step lightness from about 98 percent down to about 10 percent (50, 100, 200 up to
+900). Slightly-tinted neutrals feel designed; pure grays feel dead. This ramp does most of the
+work on the page.
+
+**The 60/30/10 rule.** About 60 percent dominant (usually a neutral surface), 30 percent
+secondary, and 10 percent accent for CTAs and emphasis. The accent earns attention because it is
+rare, so do not spend it on decoration.
+
+**A semantic system, separate from brand.** Success, warning, error, and info are a functional
+layer (conventionally green, amber, red, blue). Keep them distinct from brand accents so a red
+button does not read as an error, and never rely on hue alone (pair it with an icon or a label).
+
+**Warm versus cool, briefly and honestly.** Warm hues (red, orange, yellow) advance and feel
+energetic or urgent; cool hues (blue, green) recede and feel calm or trusted. These associations
+are real but culture- and context-dependent, not laws. Use them as a starting bias, then let the
+brand adjectives and accessibility decide.
+
+**Build accessibility in from the start.** Choose colors at accessible lightness pairs first:
+pick a text lightness and a background lightness that already clear 4.5:1, then adjust hue and
+saturation within that constraint. Retrofitting contrast onto a palette you already love is where
+designs break. Generate the whole palette with `design_palette`, and verify any hand-edit with
+`design_lint`.
 - Never use color as the only signal. Pair it with text, icons, or shape.
 
 ### 5. Accessibility (WCAG, non-negotiable)
@@ -86,16 +156,23 @@ primary, secondary, tertiary.
 
 Run these steps in order.
 
-### Step 1: Lock the brief
-Confirm or infer the goal (what the interface must accomplish), the audience, the brand
-constraints (existing colors, fonts, tone), the platform (web, mobile, both), and the one action
-that matters most on the screen.
+### Step 1: Run the intake
+Run **The Intake** above. Confirm the goal, audience, the three brand adjectives, existing
+assets, the platform, and the one action that matters most. Ask only what you cannot infer;
+proceed on stated defaults if the user says "just go."
 
 ### Step 2: Set the foundations (tokens)
-Define the design tokens before any layout: a color palette (with hex values and the contrast
-ratio of each text pairing), a type scale, and a spacing scale. These are the vocabulary
-everything else uses. Verify color contrast with `design_lint` and fix any failing pair here,
-before it spreads through the design.
+Define the design tokens before any layout: a color palette, a type scale, and a spacing scale.
+These are the vocabulary everything else uses.
+
+For color, call `design_palette` with the brand's base color (from the intake, or one chosen to
+fit the brand adjectives) and the harmony the brief calls for. Take its palette, neutral ramp,
+semantic colors, and CSS variables as your starting system. Then reason about what the tool
+cannot: whether the harmony suits the brand personality, which single accent becomes the CTA
+color, how the 60/30/10 split maps onto this layout, which neutral steps carry surfaces versus
+borders versus text, and whether the mood matches the three adjectives. If you hand-adjust any
+pair, re-verify it with `design_lint`. The tool guarantees contrast and harmony; you own taste,
+hierarchy, and fit.
 
 ### Step 3: Establish hierarchy and layout
 Decide the visual order and the layout structure. Place the most important element where the eye
@@ -197,10 +274,16 @@ For a review, replace the spec with:
 
 When the MCP tools from this repo are connected:
 
+- `design_palette` - generates an accessible, harmonious palette from a base color and a harmony
+  type (monochromatic, analogous, complementary, split-complementary, triadic, tetradic). Returns
+  the brand color, harmony accents, a tinted neutral ramp (50 to 900), semantic colors, every
+  swatch with a contrast-checked text color, and ready-to-paste CSS custom properties. Accents are
+  tuned so white text meets WCAG AA. Use it in Step 2 to build the palette; it does the math so
+  you design with pairs that already pass.
 - `design_lint` - checks color pairs for WCAG contrast. Give it foreground/background hex pairs
   (your palette's text-on-surface combinations) and it returns the contrast ratio and AA/AAA
-  pass or fail for each, with fixes. Run it on your palette in Step 2, before the colors spread
-  through the design.
+  pass or fail for each, with fixes. Use it to verify any color you choose or hand-edit outside
+  `design_palette`.
 
 ---
 

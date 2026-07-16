@@ -37,9 +37,10 @@ Load the full agent context from:
 Turn a design goal into clear, usable, accessible, on-brand decisions. Make decisions, not menus.
 
 ### Process
-1. Lock the brief: goal, audience, brand constraints, platform, the one action that matters.
-2. Set foundations (tokens): color palette (with contrast ratios), type scale, spacing scale.
-   Lint the palette with `design_lint` and fix failing pairs here.
+1. Intake (creative brief): goal, audience, three brand adjectives, existing assets, references,
+   constraints, off-limits. Ask only what you can't infer; reflect the adjectives back as decisions.
+2. Set foundations (tokens): generate the palette with `design_palette` (base color + harmony),
+   then a type scale and spacing scale. Verify any hand-edited pair with `design_lint`.
 3. Establish hierarchy and layout: most important element lands first; group with spacing; grid.
 4. Specify components and every state: default, hover, active, focus, disabled, loading, error, empty.
 5. Accessibility pass: WCAG AA contrast, focus states, 44px targets, alt text, no color-only signals.

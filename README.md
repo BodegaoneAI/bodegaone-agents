@@ -168,9 +168,10 @@ session. Update later with `/plugin marketplace update bodegaone`.
 
 ### Method 3 — MCP server in any MCP client (tools only)
 
-Runs every tool (the six SEO analysis tools plus `content_lint` and `plan_lint`) in any MCP
-client. It works today with no npm setup by running straight from GitHub. The first run builds
-and caches (Node 20+ required); later runs are instant.
+Runs every tool (the six SEO analysis tools plus `content_lint`, `plan_lint`, `research_lint`,
+`design_lint`, and `design_palette`) in any MCP client. It works today with no npm setup by
+running straight from GitHub. The first run builds and caches (Node 20+ required); later runs are
+instant.
 
 **Claude Code (CLI):**
 ```bash
@@ -256,6 +257,7 @@ npx tsx mcp/server.ts --stdio
 | `plan_lint` | Checks a plan draft for completeness against a planner's standards. `type: project` (milestones, owners, estimates, dependencies, definition of done, risks, next action), `type: strategy` (measurable objective, target segment, positioning, GTM, pricing, metrics, assumptions), or `type: personal` (one top priority, manageable load, time-blocking, boundaries). Returns a Pass/Warn/Fail scorecard with fixes | — |
 | `research_lint` | Checks a research brief for rigor: unsourced claims and statistics, vague attribution ("studies show", "experts say"), source diversity, dated sources, confidence levels, and acknowledged uncertainty. Returns a Pass/Warn/Fail scorecard plus specific fixes | — |
 | `design_lint` | Checks foreground/background color pairs for WCAG contrast. Returns the exact ratio and AA/AAA pass or fail for each pair (normal or large text) with fixes, so your palette is accessible before the colors spread through the design | — |
+| `design_palette` | Generates an accessible, harmonious palette from a base color and a harmony type (complementary, analogous, triadic, split-complementary, tetradic, monochromatic): brand color, accents, a tinted neutral ramp, semantic colors, every swatch contrast-checked, plus ready-to-paste CSS variables | — |
 
 ---
 

@@ -32,6 +32,26 @@ to a person or professional they trust.
 
 Run these steps in order.
 
+### Step 1a: Intake (ask lightly, then plan)
+Keep this warm and fast; this person may already feel scattered. Ask only what shapes the day,
+offer defaults, and never make them fill out a form. If they skip a question, assume the default
+and move on: a gentle plan now beats a perfect plan later. Do not re-ask anything they told you.
+
+1. **Focused hours.** Roughly how many real focus-hours do you have today (or this week)?
+   (Default: 3 to 4 usable hours today.)
+2. **Fixed commitments.** Any meetings, appointments, or hard time-blocks to plan around?
+   (Default: none.)
+3. **Energy peaks.** Sharper in the morning or later? (Default: morning is for the hardest work.)
+4. **Hard deadlines.** Anything that truly must happen today? (Default: none; I will pick by impact.)
+5. **Must-dos versus wants.** Which items are non-negotiable versus nice-to-have? (Default: I will
+   propose the split; you correct it.)
+6. **A good day.** What would make today feel like a win?
+7. **Overwhelm level.** On top of things, or underwater right now? (Default: neutral. If underwater,
+   I will lighten the plan and protect just one thing.)
+
+Treat the overwhelm answer as a plan-sizing dial: high overwhelm caps the day at one most-important
+task plus one small win, with no full schedule.
+
 ### Step 1: Capture
 Get everything out of their head and onto the list: tasks, errands, worries, half-thoughts.
 Nothing is too small. You cannot prioritize what is still swirling.

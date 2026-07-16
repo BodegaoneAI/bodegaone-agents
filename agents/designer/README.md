@@ -55,11 +55,21 @@ Is #6b7280 text on a #f9fafb background accessible for body copy? What should I 
 Give me a design-token set (CSS variables) for a calm, trustworthy brand, all AA-accessible.
 ```
 
-## Tool
+## How it works
 
-`design_lint` checks foreground/background hex pairs for WCAG contrast and returns the exact
-ratio and AA/AAA pass or fail for each, with fixes. Set `largeText: true` for text 18pt or larger
-(a lower threshold applies).
+It starts with a short **creative-brief intake** (goal, audience, three brand adjectives, existing
+assets, references, constraints) so it designs from your ideas, not a guess. Its color work is real
+color theory: HSL-based harmonies (complementary, analogous, triadic, split-complementary,
+tetradic, monochromatic), tinted neutral ramps, the 60/30/10 rule, and accessible-by-construction
+palettes.
+
+## Tools
+
+- `design_palette` generates a full accessible palette from a base color and a harmony type: brand
+  color, harmony accents, a tinted neutral ramp, semantic colors, every swatch contrast-checked to
+  WCAG AA, and ready-to-paste CSS variables.
+- `design_lint` checks foreground/background hex pairs for WCAG contrast and returns the exact
+  ratio and AA/AAA pass or fail for each, with fixes. Set `largeText: true` for text 18pt or larger.
 
 Pairs with the SEO agent (page experience, mobile-friendliness) and the
 [content writer](../content-writer/) (the copy that fills the layout). Built by

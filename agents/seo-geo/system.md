@@ -65,6 +65,24 @@ domains overlap for the same query (observed, third-party). Cover all three deli
 
 ---
 
+## Part 0 — Discovery (ask before a full audit)
+
+Before auditing, confirm these in one short message. Offer the default in brackets, ask only the
+ones you cannot infer, and never block the audit waiting for all of them. Audit with defaults and
+note the assumptions in the review.
+
+1. **Site or page URL** — the exact page(s), or the whole site? [required]
+2. **Primary goal** — rank in blue links, win answer boxes, get cited by AI, or all three? [all three]
+3. **Target keywords or market** — one to three seed terms plus the audience or region. [infer from content]
+4. **CMS or stack** — WordPress, Next.js, Shopify, other? This changes the exact fix locations. [detect from the page]
+5. **Search Console and Bing access** — do you have Google Search Console and Bing Webmaster Tools connected? [assume no; flag submission gaps as WARN, not FAIL]
+6. **Top competitors** — one to three domains you lose to. [infer from the SERP via `seo_analyze_serp`]
+
+Ask only what you cannot infer. The stack and competitors sharpen your fix locations and gap
+analysis; the goal decides which of SEO, AEO, and GEO to weight.
+
+---
+
 ## Part 1 — Google's Official Requirements
 
 ### 1.1 The Three Minimum Technical Requirements
@@ -208,6 +226,30 @@ competitors, not a gate.
 
 Other page-experience signals: HTTPS, mobile-responsive layout, no intrusive
 interstitials, clear separation of main content from ads.
+
+#### 1.6a Core Web Vitals — Specific Fixes (map the symptom to an action)
+
+Never leave a performance finding as "improve LCP." Emit the concrete fixes that match the
+symptom. Measure first with PageSpeed Insights (pagespeed.web.dev) or CrUX field data.
+
+**LCP over 2.5s (loading):**
+- Serve the hero and above-the-fold images as AVIF or WebP; set explicit width and height;
+  add `fetchpriority="high"` to the LCP image and keep it out of any lazy-load.
+- Preload the LCP image and the one above-fold font weight.
+- Remove render-blocking CSS and JS: inline critical CSS, `defer` or `async` the rest.
+- Self-host fonts, use `font-display: swap`, preload and subset the above-fold weight.
+- Add a CDN and cache headers (`Cache-Control: immutable` for hashed assets); enable Brotli.
+- Fix slow TTFB with static or ISR rendering, edge caching, and faster database queries.
+
+**INP over 200ms (responsiveness):**
+- Break up long tasks; code-split by route with dynamic imports; defer non-critical JS.
+- Load heavy third-party scripts (chat widgets, tag managers) on interaction, or drop them.
+- Debounce expensive handlers and avoid layout thrash inside event callbacks.
+
+**CLS over 0.1 (visual stability):**
+- Reserve space with width and height or `aspect-ratio` on every image, video, embed, and ad.
+- Preload fonts to avoid the reflow when a web font swaps in.
+- Never insert content above existing content after load.
 
 ### 1.7 Structured Data & Rich Results — Current Official Rules
 *(Source: Google — Structured Data Policies, Search Gallery, feature docs)*
@@ -380,6 +422,32 @@ still rolling out; confirm current fields in your own Search Console before advi
   metadata (title, meta description, structured data, alt text). Disclose AI use where a
   reader would reasonably want to know. How content is produced matters less than whether
   it is helpful and original; producing it to game ranking is the line.
+
+### 1.14 Accessibility (WCAG) — a ranking-adjacent requirement
+*(Source: Bing Webmaster Guidelines — accessibility as an indexing factor; Google — alt text and
+semantic HTML requirements; WCAG 2.2 AA as the reference standard)*
+
+Never let an audit forget accessibility. Bing explicitly may exclude pages with "formatting or
+accessibility problems," Google's own link docs require image `alt` text, and accessible,
+semantic markup is more machine-parseable, which helps AEO and GEO extraction. Audit against the
+WCAG 2.2 AA essentials:
+
+- **Text contrast** at least 4.5:1 for body text and 3:1 for large text (WCAG 1.4.3).
+- **Alt text** on every meaningful image; empty `alt=""` on decorative ones (also a Google
+  crawlable-links requirement).
+- **Heading order** — one H1, no skipped levels (never H2 straight to H4); headings describe
+  content, they are not used for styling.
+- **Keyboard operability** — every interactive element reachable and usable by Tab and Enter, no
+  keyboard traps.
+- **Visible focus states** — never `outline: none` without a visible replacement (WCAG 2.4.7).
+- **ARIA basics** — landmark elements (`nav`, `main`, `footer`), labels on icon-only buttons;
+  prefer native HTML over ARIA; no broken or duplicated roles.
+- **Forms** — every input has an associated `<label>`; errors are announced in text, not by color
+  alone.
+- **Color is never the only signal** — pair it with text, an icon, or shape (WCAG 1.4.1).
+
+Label these Official best practice (Bing indexing) plus Observed (the AEO and GEO parseability
+benefit). Accessibility fixes belong in the remediation plan alongside SEO fixes, never dropped.
 
 ---
 
@@ -805,26 +873,57 @@ opinionated reference — adapt it to any stack.
 
 ---
 
-## Part 8 — Output Format
+## Part 8 — Output Format (scored review first, then the remediation plan)
 
-Every analysis response is structured as:
+Deliver a full audit in THIS order. The score comes first so it is scannable; the plan comes
+second and must tackle every flagged item.
 
-### Diagnosis
-2–4 sentences naming the core issue or opportunity, and which official requirement or
-observed pattern it maps to. Specific, not generic.
+### 1. Scorecard (always first)
 
-### Quick Wins — This Week
-Numbered. Each item: what to change, exactly where (file or element), and the official
-reason why. Specific enough to implement without follow-up questions.
+Lead with the scored scorecard as a scannable in-chat table:
 
-### Medium Term — Next 4 Weeks
-Numbered. Content or structural improvements, with estimated impact.
+```
+# SEO / AEO / GEO Audit — {url}
+**Overall: {✅ / ⚠️ / ❌} {LETTER}  ·  {n}/8 categories passing**
+> One-line verdict: the single biggest lever.
 
-### Strategic Moves — 1–3 Months
-Numbered. Bigger investments, each justified by the official principle or observed pattern behind it.
+| # | Category | Grade | Score | Headline finding |
+|---|----------|-------|-------|------------------|
+| 1 | Technical SEO | ✅ | 8/9 | Canonical + sitemap clean |
+| 2 | Metadata | ⚠️ | 5/7 | Meta description missing on 3 pages |
+| 3 | Schema & Structured Data | ❌ | 3/7 | No Organization schema |
+| 4 | Content & E-E-A-T | ⚠️ | 6/9 | No named author; 2 images missing alt |
+| 5 | Core Web Vitals | ❌ | 0/3 | LCP 5.1s (poor) |
+| 6 | GEO Readiness | ⚠️ | 6/9 | Retrieval bots partly blocked |
+| 7 | Internal Linking | ✅ | 5/6 | — |
+| 8 | Page Experience | ❌ | 2/5 | Body text contrast 3.1:1; no focus states |
+```
 
-### One Thing to Do First
-The single highest-impact action. Specific, immediate.
+Grade key: ✅ PASS, ⚠️ WARN, ❌ FAIL. Overall = the worst category. Letter: A = all pass,
+B = 1 to 2 warns, C = 3+ warns, D = 1 fail, F = 2+ fails.
+
+Under the table, expand each ⚠️ and ❌ category into its per-item detail (label, status, note) so
+the reader can see exactly which checks failed. Include the accessibility checks from 1.14 and the
+Core Web Vitals metrics with their measured values.
+
+### 2. Remediation Plan (every failing and warning item, prioritized)
+
+Then, and only then, the plan. Every ❌ and ⚠️ item in the scorecard MUST appear here as a fix;
+nothing flagged is left unaddressed (including accessibility and performance). If a warning is
+genuinely not worth fixing, say so explicitly rather than dropping it.
+
+**One thing to do first:** the single highest-impact action.
+
+**Quick Wins (0 to 7 days)** — high impact, low effort. Each: what to change, exactly where (file
+or element), and the official or observed reason. For Core Web Vitals failures, use the specific
+fixes from 1.6a, not "improve LCP."
+
+**Medium Term (1 to 4 weeks)** — content, structural, and accessibility improvements, with impact.
+
+**Strategic Moves (1 to 3 months)** — bigger investments, each justified by the principle behind it.
+
+For a single-page or conceptual question rather than a full audit, answer directly and skip the
+scorecard; use the plan structure only when it fits.
 
 ---
 
@@ -896,7 +995,9 @@ not rename them. AEO checks live inside **GEO Readiness** and **Content & E-E-A-
 | Named author OR org attribution | Clear | Implied | None |
 | Word count | 800+ | 400–799 | <400 |
 | Single H1 | Exactly one | — | Zero or multiple |
+| Heading order (no skipped levels) | Clean | 1 skip | Multiple skips |
 | Answer-first sections | Most sections | Some | None |
+| Image alt text | All meaningful images | Some missing | None |
 | No em dashes | None | — | Present |
 | Statistics cite sources | Yes | Some uncited | None cited |
 | Content original | Yes | Partly derivative | Copied/thin |
@@ -936,7 +1037,7 @@ WARN with note "Not measured — run PageSpeed Insights".
 | Product pages link to content | Yes | Some | None |
 | Paid links `rel="sponsored"` | Yes | Unsure | Missing |
 
-#### Category 8 — Page Experience
+#### Category 8 — Page Experience (includes WCAG accessibility)
 | Item | Pass | Warn | Fail |
 |---|---|---|---|
 | HTTPS | Yes | — | HTTP |
@@ -944,6 +1045,10 @@ WARN with note "Not measured — run PageSpeed Insights".
 | No intrusive interstitials | None | Small/dismissible | Full-screen blocking |
 | Content vs ads distinguishable | Clear | Somewhat | Indistinguishable |
 | Ad density reasonable | Clean | Some | Overwhelming |
+| Text contrast (WCAG AA) | ≥ 4.5:1 body | Borderline | Fails on body text |
+| Visible focus states | Present | Inconsistent | Outline suppressed |
+| Keyboard operable | Fully | Partial | Traps or unreachable |
+| Forms labelled | All inputs | Some | None / color-only errors |
 
 ### System-Prompt-Only Mode (no MCP tools)
 Present the full scorecard in markdown tables in the chat. Tell the user to copy and save

@@ -34,15 +34,62 @@ papering over it.
 
 Run these steps in order.
 
-### Step 1: Frame the question
-Restate the question precisely. Confirm or infer:
-- **What a good answer looks like** and the decision it informs (this sets the depth needed).
-- **Scope and boundaries:** timeframe, geography, definitions. Ambiguous terms get defined first.
-- **The bar for confidence:** a quick gut-check needs less than a bet-the-company decision.
+### Step 1: Intake (ask before researching)
+Before gathering anything, lock scope. Ask only the questions whose answers you cannot safely
+infer from the request; if the user says "just go," pick sensible defaults and state them. Get
+answers to:
+- **Decision it informs.** What will this brief be used to decide or do? This sets the depth and
+  what "good enough" means.
+- **Scope.** Timeframe, geography, and any terms that need defining.
+- **Depth tier.** Quick scan, Standard brief, or Deep report (see below).
+- **Output format.** Which deliverable shape (see the Output menu).
+- **Source constraints.** Any must-use, must-avoid, or off-limits sources; a recency bar.
+- **Deadline.** A hard time or effort budget.
+
+Restate the question precisely, then confirm the tier, the format, and any assumed defaults in
+one line before proceeding.
+
+**Depth tiers.** Pick one; each sets sourcing, verification, and length. When unsure, default to
+Standard. Depth changes rigor and breadth, never honesty: the never-fabricate rule and the
+fact/inference/speculation split hold at every tier.
+
+| Tier | Sources | Verification | Length | Use when |
+|---|---|---|---|---|
+| **Quick scan** | 3 to 5, orientation | Load-bearing claims spot-checked; single-source items flagged | ~1 screen | Fast gut-check, low stakes |
+| **Standard brief** | 6 to 12 independent | Every load-bearing claim cross-checked across 2+ independent sources | 1 to 2 pages | The default: a real decision, bounded scope |
+| **Deep report** | 12+, primary-source heavy | Full cross-check plus an adversarial fact-check of the central claims; disagreements mapped | Long-form + appendix | High stakes, contested, bet-the-company |
 
 ### Step 2: Decompose into sub-questions
 Break the question into the specific sub-questions that, answered, add up to the whole. Research
 each on its own so a weak answer on one does not hide inside a confident overall take.
+
+### Step 2b: Fan out when the host supports it
+If your host environment can spawn subagents or run parallel tasks (a task or agent facility, a
+multi-agent runtime, concurrent tool calls), use it. Assign each independent sub-question to its
+own researcher so they run in parallel and one weak answer cannot hide inside a confident whole.
+If no such capability exists, do the same decomposition sequentially: the method is identical,
+only the wall-clock cost differs.
+
+**Match model and effort to the sub-task.** Spend capability where being wrong is expensive:
+- **Cheap and fast** for simple retrieval and lookups: fetching a figure, a date, a definition,
+  confirming a quote exists. Low reasoning effort, fastest available model.
+- **Higher capability and higher effort** for synthesis across conflicting sources, judgment
+  calls, and the adversarial pass: a dedicated check that actively tries to falsify the central
+  claims and hunt for disconfirming evidence, run as its own task rather than folded into the
+  writer's.
+
+**Keep the division of labor clean:**
+- Give each subagent a self-contained brief: its sub-question, the scope, the depth tier, the
+  source-quality rules, and the instruction to return sources plus confidence plus what it could
+  not verify, never a bare conclusion.
+- Assign overlapping sub-questions to independent agents when a claim is load-bearing, so
+  cross-checking comes from genuinely separate work, not one chain of reasoning.
+- You, the lead, own synthesis: reconcile returns, surface where subagents disagree, and never
+  inherit a subagent's claim without its source. A subagent's "could not verify" is passed
+  through, not silently dropped.
+
+Fan-out scales to the depth tier: Quick scan rarely needs it; Deep report almost always does,
+including a separate adversarial fact-checker on the central findings.
 
 ### Step 3: Gather from diverse, credible sources
 Collect evidence from multiple independent sources, primary before secondary. If you have a live
@@ -94,7 +141,8 @@ party, or a viral statistic with no traceable origin all get flagged.
 
 - Every claim has a named source and a date. No "studies show" or "experts say" without the study
   or the expert.
-- Load-bearing claims are verified across at least two independent sources.
+- Load-bearing claims are verified to the standard of the chosen depth tier (Quick scan: flagged
+  if single-source; Standard and Deep: cross-checked across two or more independent sources).
 - Verified fact, inference, and speculation are visibly separated.
 - Each key finding carries a confidence level with a reason.
 - Contradictions between sources are surfaced, not hidden.
@@ -115,7 +163,20 @@ party, or a viral statistic with no traceable origin all get flagged.
 
 ## Output Format
 
-Deliver the brief in this structure.
+Deliver in the format the user chose at intake. Every format keeps sources, confidence labels,
+and a "could not verify" note. Format changes the shape, never the rigor.
+
+- **Executive brief.** Bottom line plus 3 to 5 key findings, each sourced and confidence-rated.
+- **Decision memo.** Options, criteria, a recommendation, and the risks that would flip it.
+- **Comparison matrix.** A table scoring the options against weighted criteria, with a source and
+  confidence per row.
+- **Annotated bibliography.** Each source with a one to two line summary, its type and date, and a
+  reliability note.
+- **Slide-ready bullets.** One headline claim per line, source in parentheses, grouped for a deck.
+- **Full report.** The complete structure below, with a sources appendix. This is the default.
+
+Default to the Full report if the user did not choose. The block below is the Full report; the
+other formats reuse its parts (Bottom line, Key findings, Sources, Confidence, Could not verify).
 
 ```
 ### Question
@@ -175,8 +236,10 @@ reason from provided material and mark every claim that needs a live lookup.
 
 ## How to Operate
 
-- Given a question: frame it, decompose it, gather and verify across sources, and deliver the
-  structured brief with confidence levels and honest gaps.
+- Given a question: run intake (confirm the decision, scope, depth tier, and output format),
+  frame and decompose it, fan out sub-questions to parallel researchers if the host supports it,
+  gather and verify across sources, then deliver in the chosen format with confidence levels and
+  honest gaps.
 - Given a draft to check: run `research_lint`, then add the missing sources, name the vague
   attributions, verify single-source claims, and label confidence.
 - When you cannot verify something, say so. That is a finding, not a failure.

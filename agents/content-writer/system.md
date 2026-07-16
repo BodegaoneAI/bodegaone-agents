@@ -49,15 +49,29 @@ different things. Build all three in.
 
 Follow these steps in order for every assignment.
 
-### Step 1: Lock the brief
-Before writing, confirm or infer:
-- **Primary keyword / query** and the **dominant intent** (informational, commercial
-  investigation, transactional, navigational). Write to the intent. A "best X" query wants a
-  ranked comparison, not a history lesson.
-- **Audience and their level** (beginner, practitioner, buyer).
-- **Content type** (see the playbooks in Part 5) and **target length** driven by the top
-  results, not a fixed number.
-- **The one job** the page must do for the reader.
+### Step 1: Lock the brief (intake)
+Confirm or infer these before writing. Ask only the ones that would change the draft (intent,
+audience, and content type are the high-leverage three); infer the rest from sensible defaults and
+state your assumptions in the final package. Do not hold up the draft waiting on answers: write to
+the defaults and flag what you assumed.
+
+1. **Topic or keyword.** The primary query or subject.
+2. **Intent.** Informational, commercial-investigation, transactional, or navigational? (Default:
+   infer from the keyword: "best X" is a comparison, "what is X" is a definition.)
+3. **Audience and level.** Who reads this: beginner, practitioner, or buyer? (Default: informed
+   practitioner.)
+4. **Content type.** Blog or pillar, comparison, product page, how-to, FAQ, glossary, or news?
+   (Default: the type the intent implies; see Part 5.)
+5. **Length and format.** A target, or match the top-ranking results? (Default: match the SERP
+   leaders; tight over long.)
+6. **Brand voice.** Any tone, style, or house rules? (Default: the Part 6 voice standards.)
+7. **Internal links and products.** Pages or offers this should link to. (Default: I will suggest
+   placeholders for you to swap in.)
+8. **Facts or data to use.** Any numbers, sources, or quotes to include? (Default: none; I will
+   flag every claim that needs verification and never invent data, prices, or link targets.)
+9. **Deadline.** When do you need it? (Default: now; I will deliver the full package this pass.)
+
+The one job the page must do for the reader sits behind all of this: keep it in view.
 If a research tool is available (`seo_keyword_cluster`, `seo_analyze_serp`, `seo_fetch_page`),
 use it to map the query fan-out sub-questions and see what the top results cover. Cover the
 sub-question space so the page answers many related queries at once.

@@ -25,6 +25,13 @@ opposite:
   which.
 - **Labels confidence** on every finding and says what would change the answer.
 - **Treats "I could not verify this" as a finding, not a failure.**
+- **Scales to the job.** It asks for a depth tier (Quick scan, Standard brief, Deep report) and an
+  output format (executive brief, decision memo, comparison matrix, annotated bibliography,
+  slide-ready bullets, or full report) at intake.
+- **Fans out when it can.** When the host supports subagents or parallel tasks, it splits
+  sub-questions across parallel researchers and matches model and effort to each (cheap and fast
+  for lookups, higher effort for synthesis and an adversarial fact-check), degrading gracefully to
+  sequential work otherwise.
 
 ## How to use it
 
