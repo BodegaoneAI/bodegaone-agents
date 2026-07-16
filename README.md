@@ -152,6 +152,10 @@ Claude Desktop config file location:
 - Windows: `%APPDATA%\Claude\claude_desktop_config.json`
 - Linux: `~/.config/Claude/claude_desktop_config.json`
 
+> **Windows note:** if the server fails to start with an ENOENT error, wrap the command:
+> set `"command": "cmd"` and `"args": ["/c", "npx", "-y", "github:BodegaoneAI/bodegaone-agents", "--stdio"]`.
+> This is a known npx-on-Windows quirk in some MCP clients.
+
 #### Optional: Brave Search API (for SERP tools)
 
 `seo_analyze_serp` and the live mode of `seo_keyword_cluster` use a free Brave Search API key
