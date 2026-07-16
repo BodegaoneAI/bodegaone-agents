@@ -45,6 +45,14 @@ one, it reasons from the material you give it and marks what needs a live lookup
 /plugin install bodegaone-agents@bodegaone
 ```
 
+## Token cost
+
+≈2,900 tokens per run for the system prompt (re-sent as input on every model call), plus ≈640
+tokens injected once per session when the Claude Code plugin's skill auto-surfaces. Estimated with
+the [Anthropic tokenizer](https://github.com/anthropics/anthropic-tokenizer-typescript); actual
+counts vary slightly by model, and prompt caching (on by default in most Claude clients) makes
+repeat turns far cheaper than the raw number implies.
+
 ## Example prompts
 
 ```
