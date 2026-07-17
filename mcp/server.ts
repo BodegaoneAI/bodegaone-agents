@@ -18,7 +18,12 @@ export function createServer() {
         "plan draft for completeness. Use research_lint to check a research brief for rigor " +
         "(sourced claims, no vague attribution, confidence levels). Use design_lint to check " +
         "color pairs for WCAG contrast, and design_palette to generate an accessible, harmonious " +
-        "color palette from a base color.",
+        "color palette from a base color. Use social_lint to check a social/short-form post " +
+        "against platform limits and hook/hashtag/CTA best practices, email_lint to check an " +
+        "email draft for subject/preheader length, spam triggers, and CAN-SPAM/deliverability " +
+        "compliance, a11y_lint to audit HTML against WCAG 2.2 (alt text, labels, headings, link " +
+        "and button names, ARIA), and ad_lint to check Google RSA or Meta ad copy against " +
+        "platform character limits, ad policy, CTA, and UTM tracking.",
     }
   );
 

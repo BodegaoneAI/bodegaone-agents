@@ -108,6 +108,53 @@ const SKILLS = [
     ],
     file: join(REPO_ROOT, "skills", "designer", "SKILL.md"),
   },
+  {
+    name: "social",
+    patterns: [
+      /[/\\]social[/\\]/i,
+      /\.social\.md$/i,
+      /SOCIAL\.md$/i,
+      /tweet/i,                   // tweet.md, tweets.ts
+      /[/\\]threads?[/\\]/i,      // /thread/ or /threads/ dir
+      /threads?\.md$/i,           // thread.md, x-threads.md
+      /linkedin/i,                // linkedin-post.md
+    ],
+    file: join(REPO_ROOT, "skills", "social", "SKILL.md"),
+  },
+  {
+    name: "email",
+    patterns: [
+      /[/\\]emails?[/\\]/i,       // /email/ or /emails/
+      /[/\\]newsletters?[/\\]/i,  // /newsletter/ or /newsletters/
+      /\.mjml$/i,                 // MJML email templates
+      /EMAIL\.md$/i,
+      /\.email\.md$/i,
+    ],
+    file: join(REPO_ROOT, "skills", "email", "SKILL.md"),
+  },
+  {
+    name: "a11y",
+    patterns: [
+      /[/\\]a11y[/\\]/i,
+      /\.a11y\./i,                // Button.a11y.test.tsx
+      /A11Y\.md$/i,
+      /[/\\]accessibility[/\\]/i,
+      /\baria[-._]/i,             // aria-helpers.ts (not "variables" / "mariadb")
+    ],
+    file: join(REPO_ROOT, "skills", "a11y", "SKILL.md"),
+  },
+  {
+    name: "ad-copy",
+    patterns: [
+      /[/\\]ads?[/\\]/i,          // /ad/ or /ads/
+      /[/\\]ad-copy[/\\]/i,
+      /[/\\]campaigns?[/\\]/i,
+      /[/\\]paid-media[/\\]/i,
+      /\.ads?\.md$/i,             // foo.ads.md
+      /(?:^|[/\\])ADS?\.md$/,     // AD.md or ADS.md (case-sensitive; not download.md)
+    ],
+    file: join(REPO_ROOT, "skills", "ad-copy", "SKILL.md"),
+  },
 ];
 
 // ── Session-level deduplication ────────────────────────────────────────────
