@@ -66,7 +66,7 @@ Or add the same command to your MCP client's config as `command: "npx"`,
 per-client config paths and the optional Brave Search API key.
 
 ### Option 3 — Claude Code plugin (agents + tools in one install)
-Installs both agents' auto-injecting skills, the editor hooks, and all the MCP tools. Inside
+Installs every agent's auto-injecting skills, the editor hooks, and all the MCP tools. Inside
 Claude Code:
 ```
 /plugin marketplace add BodegaoneAI/bodegaone-agents

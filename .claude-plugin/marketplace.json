@@ -12,7 +12,7 @@
     {
       "name": "bodegaone-agents",
       "source": "./",
-      "description": "SEO/AEO/GEO and content-writing agents: auto-injecting skills, expert system prompts, and live analysis tools.",
+      "description": "Eleven agents for operators and founders (SEO/AEO/GEO, content, social, email, ad copy, accessibility, research, design, planning): auto-injecting skills, expert system prompts, and live analysis tools.",
       "version": "1.0.0",
       "author": {
         "name": "Bodega One",

@@ -118,6 +118,62 @@ needs real rendering and user testing.
 
 ---
 
+### [Social / Short-form Agent](./agents/social/) — Available Now
+
+Repurposes long-form content into platform-native posts for X, LinkedIn, Instagram, and Threads.
+The distribution counterpart to the Content Writer: that one writes the piece once, this one turns
+it into feed-ready posts, hook-first and one idea each. It self-checks every post with `social_lint`:
+official per-platform character limits (X 280, Threads 500, LinkedIn 3,000, Instagram 2,200, with
+thread posts checked one by one), a hook that lands before the "…more" fold, hashtag discipline, a
+real CTA, and no engagement-bait or emoji walls. It also knows a raw link in an X post can cut reach,
+and moves it to a reply.
+
+**Token cost:** ≈3,500 tokens/run (system prompt) · ≈750 tokens once per session (auto-injected skill)
+
+---
+
+### [Email / Newsletter Agent](./agents/email/) — Available Now
+
+Writes lifecycle emails and newsletters that reach the inbox and earn the click, grounded in the
+Gmail/Yahoo bulk-sender rules, CAN-SPAM, and RFC 8058 — not folklore. It returns subject options, a
+preheader, an inverted-pyramid body with one primary CTA, and a compliant footer, then self-checks
+with `email_lint`: subject and preheader length, spam-trigger words, the unsubscribe link and postal
+address a marketing email needs, and a deliverability-setup checklist (SPF, DKIM, DMARC, one-click
+unsubscribe) for the requirements that live outside the body. It knows transactional mail is exempt
+from the unsubscribe rule and lints it on the right track.
+
+**Token cost:** ≈3,800 tokens/run (system prompt) · ≈830 tokens once per session (auto-injected skill)
+
+---
+
+### [Accessibility (a11y) Auditor Agent](./agents/a11y/) — Available Now
+
+Audits HTML and components against WCAG 2.2 (W3C) and the ARIA Authoring Practices, extending the
+Designer agent past color contrast. It returns a prioritized fix list — blocker, serious, moderate —
+with the exact success criterion and level (A/AA) behind each finding, so official requirements are
+separated from best practices. `a11y_lint` statically checks image alt text, heading structure, form
+labels, discernible link and button names, common ARIA mistakes, and page-level language, title, and
+zoom. It is honest that static analysis catches roughly a third of issues and names what still needs
+a keyboard and a screen reader; color contrast stays in `design_lint`.
+
+**Token cost:** ≈3,800 tokens/run (system prompt) · ≈870 tokens once per session (auto-injected skill)
+
+---
+
+### [Ad Copy / Paid Media Agent](./agents/ad-copy/) — Available Now
+
+Writes Google Responsive Search Ads and Meta ad copy that fit the platforms' asset specs and ad
+policies, completing the search stack: the SEO/GEO agent owns organic, this one owns paid. It returns
+headlines and descriptions with character counts, Meta primary text, and a UTM-tagged URL, then
+self-checks with `ad_lint`: official character limits (Google 15 headlines ≤30 chars, 4 descriptions
+≤90 chars), ad-policy compliance (no all-caps, gimmicky punctuation, or unprovable "#1"), one clear
+CTA, and the three core UTM parameters. It corrects the myth that Meta still enforces the 20%
+image-text rule (removed in 2020) and is clear that a lint pass is not ad approval.
+
+**Token cost:** ≈4,000 tokens/run (system prompt) · ≈760 tokens once per session (auto-injected skill)
+
+---
+
 ## Why these exist
 
 BodegaOne Agents are free and MIT-licensed, built to give the community the same caliber of
@@ -150,7 +206,7 @@ principles:
 
 ## Installation
 
-Two agents, several ways to run them. Pick the row that matches how you work.
+Eleven agents, several ways to run them. Pick the row that matches how you work.
 
 | You use | Best method |
 |---|---|
@@ -165,13 +221,16 @@ Copy the agent's `system.md` into your model's system prompt or custom instructi
 
 - SEO/AEO/GEO: [`agents/seo-geo/system.md`](./agents/seo-geo/system.md)
 - Content Writer: [`agents/content-writer/system.md`](./agents/content-writer/system.md)
+- Every other agent works the same way — `agents/<name>/system.md` for `project-planner`,
+  `strategy-planner`, `personal-planner`, `researcher`, `designer`, `social`, `email`, `a11y`,
+  and `ad-copy`.
 
 Works in Claude, ChatGPT (as a Custom GPT or a system prompt), Gemini (as a Gem), or any model
 that accepts a system prompt. No tools, no server, no install.
 
 ### Method 2 — Claude Code plugin (recommended for Claude Code)
 
-One install gives you both agents' auto-injecting skills, the editor hooks, and all the MCP
+One install gives you every agent's auto-injecting skills, the editor hooks, and all the MCP
 tools. Inside Claude Code, run:
 
 ```
@@ -179,13 +238,15 @@ tools. Inside Claude Code, run:
 /plugin install bodegaone-agents@bodegaone
 ```
 
-Skills auto-surface when you edit SEO or content files, and the tools are available in every
-session. Update later with `/plugin marketplace update bodegaone`.
+Skills auto-surface when you edit relevant files (SEO, content, email, social, ad, accessibility,
+and planning), and the tools are available in every session. Update later with
+`/plugin marketplace update bodegaone`.
 
 ### Method 3 — MCP server in any MCP client (tools only)
 
 Runs every tool (the six SEO analysis tools plus `content_lint`, `plan_lint`, `research_lint`,
-`design_lint`, and `design_palette`) in any MCP client. It works today with no npm setup by
+`design_lint`, `design_palette`, `social_lint`, `email_lint`, `a11y_lint`, and `ad_lint`) in any
+MCP client. It works today with no npm setup by
 running straight from GitHub. The first run builds and caches (Node 20+ required); later runs are
 instant.
 
@@ -274,6 +335,10 @@ npx tsx mcp/server.ts --stdio
 | `research_lint` | Checks a research brief for rigor: unsourced claims and statistics, vague attribution ("studies show", "experts say"), source diversity, dated sources, confidence levels, and acknowledged uncertainty. Returns a Pass/Warn/Fail scorecard plus specific fixes | — |
 | `design_lint` | Checks foreground/background color pairs for WCAG contrast. Returns the exact ratio and AA/AAA pass or fail for each pair (normal or large text) with fixes, so your palette is accessible before the colors spread through the design | — |
 | `design_palette` | Generates an accessible, harmonious palette from a base color and a harmony type (complementary, analogous, triadic, split-complementary, tetradic, monochromatic): brand color, accents, a tinted neutral ramp, semantic colors, every swatch contrast-checked, plus ready-to-paste CSS variables | — |
+| `social_lint` | Lints a social/short-form post or thread for a platform (X, LinkedIn, Instagram, Threads): official character limits (per thread post), hook placement before the truncation fold, hashtag discipline, CTA, engagement-bait, all-caps, and emoji walls. Returns a Pass/Warn/Fail scorecard plus fixes | — |
+| `email_lint` | Lints an email draft against the Gmail/Yahoo sender rules, CAN-SPAM, and RFC 8058: subject and preheader length, spam-trigger words, the unsubscribe link and postal address (marketing), and link/text balance. Returns a scorecard, fixes, and a deliverability-setup checklist. Transactional mode skips the unsubscribe requirement | — |
+| `a11y_lint` | Statically audits HTML against WCAG 2.2 (A/AA) and the ARIA APG: image alt text, one-H1 and heading order, form labels, discernible link and button names, ARIA misuse, and page language/title/zoom (`isFullDocument`). Returns a scorecard plus fixes that quote the offending tag. Color contrast lives in `design_lint` | — |
+| `ad_lint` | Lints Google Responsive Search Ads or Meta ad copy against official character specs, ad policy (no gimmicky caps/punctuation or unprovable superlatives), CTA presence, and UTM tracking on the destination URL. Returns a Pass/Warn/Fail scorecard plus specific fixes | — |
 
 ---
 
@@ -330,6 +395,10 @@ One agent, done exceptionally well, before moving to the next.
 | Personal Planner | Available | ≈1,700 | ≈460 |
 | Researcher | Available | ≈2,900 | ≈640 |
 | Designer | Available | ≈3,700 | ≈670 |
+| Social / Short-form | Available | ≈3,500 | ≈750 |
+| Email / Newsletter | Available | ≈3,800 | ≈830 |
+| Accessibility (a11y) | Available | ≈3,800 | ≈870 |
+| Ad Copy / Paid Media | Available | ≈4,000 | ≈760 |
 
 Token figures are estimates (Anthropic tokenizer); see [Agents](#agents) for how each is counted.
 

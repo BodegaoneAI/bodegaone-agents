@@ -60,7 +60,7 @@ This unlocks `content_lint` (the draft checker) plus the SEO research tools the 
 build outlines. See the repo root README for per-client config paths.
 
 ### Option 3: Claude Code plugin (agents + tools in one install)
-Installs both agents' skills, the hooks, and all the MCP tools. Inside Claude Code:
+Installs every agent's skills, the hooks, and all the MCP tools. Inside Claude Code:
 ```
 /plugin marketplace add BodegaoneAI/bodegaone-agents
 /plugin install bodegaone-agents@bodegaone

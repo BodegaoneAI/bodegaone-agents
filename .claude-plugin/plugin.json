@@ -1,6 +1,6 @@
 {
   "name": "bodegaone-agents",
-  "description": "Specialized SEO/AEO/GEO and content-writing agents for operators and founders. Auto-injecting skills, expert system prompts grounded in official Google and Bing docs, and live analysis tools (page audit, schema check, SERP research, keyword clustering, site crawl, draft linting).",
+  "description": "Eleven specialized agents for operators and founders: SEO/AEO/GEO, content writing, social/short-form, email/newsletter, ad copy/paid media, accessibility (a11y), research, design, and planning. Auto-injecting skills, expert system prompts grounded in official docs, and live analysis tools (page/schema/SERP audits, site crawl, and draft, email, ad, and accessibility linting).",
   "version": "1.0.0",
   "author": {
     "name": "Bodega One",

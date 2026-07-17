@@ -72,6 +72,31 @@ describe("categoryGrade", () => {
   });
 });
 
+// ── categoryGrade: critical items ─────────────────────────────────────────────
+
+describe("categoryGrade — critical items", () => {
+  it("fails the category on a single critical fail, even as the only item", () => {
+    expect(categoryGrade([{ label: "Hard limit", status: "fail", critical: true }])).toBe("FAIL");
+  });
+
+  it("fails when a critical item fails alongside passing items", () => {
+    expect(
+      categoryGrade([
+        { label: "Hard limit", status: "fail", critical: true },
+        { label: "Something else", status: "pass" },
+      ])
+    ).toBe("FAIL");
+  });
+
+  it("does not escalate a critical item that only warns", () => {
+    expect(categoryGrade([{ label: "Soft limit", status: "warn", critical: true }])).toBe("PASS");
+  });
+
+  it("ignores the critical flag on a passing item", () => {
+    expect(categoryGrade([{ label: "OK", status: "pass", critical: true }])).toBe("PASS");
+  });
+});
+
 // ── overallGrade ──────────────────────────────────────────────────────────────
 
 describe("overallGrade", () => {
