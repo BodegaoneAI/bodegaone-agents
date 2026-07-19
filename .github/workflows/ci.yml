@@ -1,10 +1,20 @@
 name: CI
 
+# Triggers are temporarily MANUAL-ONLY (workflow_dispatch) as of 2026-07-19.
+# The GitHub account is locked on Actions billing, so every push/PR run was
+# failing at startup ("The job was not started because your account is locked
+# due to a billing issue") and stamping a red X on every merge. This repo is
+# PUBLIC, so GitHub-hosted Actions is free here once the account is unlocked.
+#
+# To restore normal CI after the org Actions billing is fixed:
+#   1. Re-add the push/pull_request triggers (see the commented block below).
+#   2. If the workflow shows as disabled in the Actions tab: `gh workflow enable CI`.
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+  workflow_dispatch:
+  # push:
+  #   branches: [main]
+  # pull_request:
+  #   branches: [main]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
